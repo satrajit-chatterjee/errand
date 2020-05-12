@@ -36,10 +36,10 @@ public class SplashScreen extends AppCompatActivity {
         }
     };
 
-    public void sendMessage(View view) {
-        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-        startActivity(intent);
-    }
+//    public void sendMessage(View view) {
+//        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+//        startActivity(intent);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +63,19 @@ public class SplashScreen extends AppCompatActivity {
                             .show();
                 }
                 else {
-                    result.setText("Name -  " + name.getText().toString() + " \n" + "Password -  " + password.getText().toString()
-                            + " \n" + "E-Mail -  " + email.getText().toString() + " \n" + "DOB -  " + dob.getText().toString()
-                            + " \n" + "Contact -  " + phoneno.getText().toString());
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    String getFName = first_name.getText().toString();
+                    String getLName = last_name.getText().toString();
+                    String getEmail = email.getText().toString();
+                    String getPhNo = phoneno.getText().toString();
+                    String getAdd = address.getText().toString();
+
+                    intent.putExtra("fname", getFName);
+                    intent.putExtra("lname", getLName);
+                    intent.putExtra("email", getEmail);
+                    intent.putExtra("phno", getPhNo);
+                    intent.putExtra("addr", getAdd);
+                    startActivity(intent);
                 }
             }
         });
