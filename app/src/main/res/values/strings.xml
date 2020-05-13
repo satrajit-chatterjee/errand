@@ -15,4 +15,8 @@
     <string name="email">Email</string>
     <string name="ph_no">Phone Number</string>
     <string name="address">Address</string>
+    <string name="main_subtitle1">We will deliver anything you need to your doorstep. Need an errand to be run? We will do it.</string>
+    <string name="main_heading1">STAY HOME\nSTAY SAFE</string>
+    <string name="main_subtitle2">Anything you need done, we will get it done and at super affordable rates!</string>
+    <string name="shop_now">Shop Now</string>
 </resources>

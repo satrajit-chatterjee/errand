@@ -31,6 +31,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ShopActivity"
+            android:screenOrientation="portrait"
+            android:label="Errand">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.APP_EMAIL" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
