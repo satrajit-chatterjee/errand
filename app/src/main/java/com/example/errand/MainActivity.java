@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,8 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<Integer> color;
-    List<String> colorName;
+    ViewFlipper adflipper;
 
-    ViewPager viewPager;
-    TabLayout indicator;
 
     private Toolbar mToolbar;
 
@@ -40,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        flipperAds();
         mToolbar = findViewById(R.id.topAppBar);
+
         setSupportActionBar(mToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
@@ -52,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    public void flipperAds(){
+        adflipper = findViewById(R.id.ad_flipper);
+        adflipper.setFlipInterval(2000);  // 2 sec
+        adflipper.setInAnimation(this, android.R.anim.slide_in_left);
+        adflipper.setOutAnimation(this, android.R.anim.slide_out_right);
+        adflipper.startFlipping();
+
     }
 
     @Override

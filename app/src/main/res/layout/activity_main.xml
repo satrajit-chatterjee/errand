@@ -6,6 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ViewFlipper
+        android:id="@+id/ad_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:background="@color/black">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="CONVENIENCE AT YOUR DOORSTEPS"
+            android:textColor="@color/white"
+            android:fontFamily="@font/futura"
+            android:textSize="13sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="AFFORDABLE RATES"
+            android:textColor="@color/white"
+            android:fontFamily="@font/futura"
+            android:textSize="13sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="ONE DAY DELIVERY"
+            android:textColor="@color/white"
+            android:fontFamily="@font/futura"
+            android:textSize="13sp"
+            android:gravity="center"/>
+
+    </ViewFlipper>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
