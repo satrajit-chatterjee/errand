@@ -34,9 +34,8 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements MainAdapter.OnShopListener {
 
     ViewFlipper adflipper;
-    ViewFlipper serflipper;
     private Toolbar mToolbar;
-    private ArrayList<ModelMain> mList;
+//    private ArrayList<ModelMain> mList;
     RecyclerView recyclerView;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -45,14 +44,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int service_images[] = {R.drawable.cosmetics, R.drawable.courier, R.drawable.grocery, R.drawable.medicine,
-                R.drawable.photo, R.drawable.ppe, R.drawable.stationery};
-
-        serflipper = (ViewFlipper) findViewById(R.id.service_flipper);
-
-        for (int image: service_images){
-            flipperServices(image);
-        }
         flipperAds();
         mToolbar = findViewById(R.id.topAppBar);
 
@@ -70,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
 
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
 
-        mList = new ArrayList<>();
+//        mList = new ArrayList<>();
         // TODO: Add garbage
 
 
@@ -78,19 +69,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
         RecyclerView.LayoutManager rvLayoutmanager = layoutManager;
 
         recyclerView.setLayoutManager(rvLayoutmanager);
-        mRecyclerAdapter = new MainAdapter(context, mList, this);
+        MainAdapter mRecyclerAdapter = new MainAdapter(this,  this);
         recyclerView.setAdapter(mRecyclerAdapter);
-    }
-
-    public void flipperServices(int image){
-        ImageView imageView = new ImageView(this);
-        imageView.setBackgroundResource(image);
-        serflipper.addView(imageView);
-        serflipper.setFlipInterval(2500);
-        serflipper.setAutoStart(true);
-
-        serflipper.setInAnimation(this, android.R.anim.slide_in_left);
-        serflipper.setOutAnimation(this, android.R.anim.slide_out_right);
     }
 
     public void flipperAds(){
