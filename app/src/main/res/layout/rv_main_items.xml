@@ -97,7 +97,7 @@
         android:layout_height="405dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:layout_marginVertical="405dp">
+        android:layout_marginVertical="415dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -141,71 +141,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginTop="20dp">
-
-                <ImageView
-                    android:id="@+id/flip_cosmetics"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shadow"
-                    android:src="@drawable/cosmetics"
-                    android:elevation="5dp" />
-
-                <ImageView
-                    android:id="@+id/flip_courier"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shadow"
-                    android:src="@drawable/courier"
-                    android:elevation="5dp" />
-
-
-                <ImageView
-                    android:id="@+id/flip_grocery"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shadow"
-                    android:src="@drawable/grocery"
-                    android:elevation="5dp" />
-
-                <ImageView
-                    android:id="@+id/flip_medicine"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shadow"
-                    android:src="@drawable/medicine"
-                    android:elevation="5dp" />
-
-                <ImageView
-                    android:id="@+id/flip_photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shadow"
-                    android:src="@drawable/photo"
-                    android:elevation="5dp" />
-
-                <ImageView
-                    android:id="@+id/flip_ppe"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shadow"
-                    android:src="@drawable/ppe"
-                    android:elevation="5dp" />
-
-                <ImageView
-                    android:id="@+id/printer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shadow"
-                    android:src="@drawable/printer"
-                    android:elevation="5dp" />
-
-                <ImageView
-                    android:id="@+id/flip_stationery"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shadow"
-                    android:src="@drawable/stationery"
-                    android:elevation="5dp" />
 
             </ViewFlipper>
 

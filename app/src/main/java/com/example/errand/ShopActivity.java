@@ -11,9 +11,6 @@ public class ShopActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(getApplicationContext(),
-                "Shop Activity Trigerred",
-                Toast.LENGTH_LONG)
-                .show();
+
     }
 }

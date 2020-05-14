@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,8 @@ import android.widget.ViewFlipper;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -42,36 +45,27 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
 //        ModelMain mainItem = mList.get(position);
 
-        TextView text_banner, text_banner_desc1, text_banner_desc2,text_pod, text_our_serv, text_serv_ran, text_12_per;
+        int[] images = {R.drawable.cosmetics, R.drawable.courier, R.drawable.grocery, R.drawable.medicine, R.drawable.photo, R.drawable.ppe, R.drawable.printer, R.drawable.stationery};
 
-        text_banner = holder.text_banner;
-        text_banner_desc1 = holder.text_banner_desc1;
-        text_banner_desc2 = holder.text_banner_desc2;
-        text_pod = holder.text_pod;
-        text_our_serv = holder.text_our_serv;
-        text_serv_ran = holder.text_serv_ran;
-        text_12_per = holder.text_12_per;
-
-//        text_banner.setText(mainItem.getText_banner());
-//        text_banner_desc1.setText(mainItem.getText_banner_desc1());
-//        text_banner_desc2.setText(mainItem.getText_banner_desc2());
-//        text_pod.setText(mainItem.getText_pod());
-//        text_our_serv.setText(mainItem.getText_our_serv());
-//        text_serv_ran.setText(mainItem.getText_serv_ran());
-//        text_12_per.setText(mainItem.getText_12_per());
-
-
-        flipperServices(holder.serflipper);
+        for (int image: images)
+        flipperServices(holder.serflipper, image);
     }
 
-    private void flipperServices(ViewFlipper vf){
-        Animation inAnimation = vf.getInAnimation();
-        Animation outAnimation = vf.getOutAnimation();
-        vf.setInAnimation(null);
-        vf.setOutAnimation(null);
+    private void flipperServices(ViewFlipper vf, int image){
+        ImageView imageView = new ImageView(vf.getContext());
+        Glide
+                .with(vf)
+                .load(image)
+                .apply(new RequestOptions().override(600))
+                .into(imageView);
+
+
+        vf.addView(imageView);
+        Animation inAnimation = AnimationUtils.loadAnimation(vf.getContext(), android.R.anim.slide_in_left);
+        Animation outAnimation = AnimationUtils.loadAnimation(vf.getContext(), android.R.anim.slide_out_right);
         vf.setInAnimation(inAnimation);
         vf.setOutAnimation(outAnimation);
-        vf.setFlipInterval(2000);  // 2 sec
+        vf.setFlipInterval(4511);  // 2 sec
         vf.startFlipping();
 
     }
@@ -83,36 +77,38 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         return 1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         OnShopListener onShopListener;
         ViewFlipper serflipper;
-        TextView text_banner, text_banner_desc1, text_banner_desc2,text_pod, text_our_serv, text_serv_ran, text_12_per;
+        public MaterialButton shopButton;
 
-        public ViewHolder(@NonNull View itemView, OnShopListener onShopListener) {
+        public ViewHolder(@NonNull View itemView, final OnShopListener onShopListener) {
             super(itemView);
 
             serflipper = itemView.findViewById(R.id.service_flipper);
+
+            shopButton = itemView.findViewById(R.id.shop_button);
             this.onShopListener = onShopListener;
-            itemView.setOnClickListener(this);
 
-            text_banner = itemView.findViewById(R.id.text_banner);
-            text_banner_desc1 = itemView.findViewById(R.id.text_banner_desc1);
-            text_banner_desc2 = itemView.findViewById(R.id.text_banner_desc2);
-            text_pod = itemView.findViewById(R.id.text_pod);
-            text_our_serv = itemView.findViewById(R.id.text_our_serv);
-            text_serv_ran = itemView.findViewById(R.id.text_serv_ran);
-            text_12_per = itemView.findViewById(R.id.text_12_per);
+            shopButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onShopListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            onShopListener.onButtonClick(position);
+                        }
+                    }
+                }
+            });
+
         }
 
-        @Override
-        public void onClick(View v) {
-            onShopListener.onShopClick(getAdapterPosition());
-        }
+
     }
 
     public interface OnShopListener{
-        void onShopClick(int position);
-
+        void onButtonClick(int position);
     }
 }

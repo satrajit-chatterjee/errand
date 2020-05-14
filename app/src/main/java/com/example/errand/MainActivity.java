@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
@@ -91,9 +92,13 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
     }
 
     @Override
-    public void onShopClick(int position) {
+    public void onButtonClick(int position) {
         Intent intent = new Intent(this, ShopActivity.class);
         startActivity(intent);
+        Toast.makeText(getApplicationContext(),
+                "Shop Activity Triggered",
+                Toast.LENGTH_LONG)
+                .show();
     }
 
 //    @Override
