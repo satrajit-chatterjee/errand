@@ -19,4 +19,6 @@
     <string name="main_heading1">STAY HOME\nSTAY SAFE</string>
     <string name="main_subtitle2">Anything you need done, we will get it done and at super affordable rates!</string>
     <string name="shop_now">Shop Now</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
