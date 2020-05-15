@@ -4,14 +4,18 @@
     tools:context="com.example.errand.MainActivity">
     <item
         android:id="@+id/menu_home"
-        android:title="Home" />
+        android:title="Home"
+        android:icon="@drawable/nav_home" />
     <item
         android:id="@+id/menu_shop"
-        android:title="Shop" />
+        android:title="Shop"
+        android:icon="@drawable/nav_shop" />
     <item
         android:id="@+id/menu_feedback"
-        android:title="Feedback" />
+        android:title="Feedback"
+        android:icon="@drawable/nav_feedback"/>
     <item
         android:id="@+id/menu_contact"
-        android:title="Contact Us" />
+        android:title="Contact Us"
+        android:icon="@drawable/nav_contact"/>
 </menu>

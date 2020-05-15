@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         nav_button = (ImageButton) findViewById(R.id.nav_button);
         mDrawerLayout.addDrawerListener(mToggle);
+        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
 
         nav_button.setOnClickListener(new View.OnClickListener() {
             @Override
