@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -18,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -38,14 +41,14 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements MainAdapter.OnShopListener {
+public class MainActivity extends AppCompatActivity implements MainAdapter.OnShopListener, NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private ImageButton nav_button;
     ViewFlipper adflipper;
     private Toolbar mToolbar;
-//    private ArrayList<ModelMain> mList;
+    NavigationView navView;
     RecyclerView recyclerView;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -57,11 +60,16 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
         flipperAds();
         mToolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         nav_button = (ImageButton) findViewById(R.id.nav_button);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navView = findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(this);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.setDrawerIndicatorEnabled(true);
+        mToggle.syncState();
         mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
 
         nav_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
             }
         });
 
-//        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-//        mToggle.syncState();
 //        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
@@ -96,13 +102,13 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
         recyclerView.setAdapter(mRecyclerAdapter);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (mToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (mToggle.onOptionsItemSelected(item)){
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public void flipperAds(){
         adflipper = findViewById(R.id.ad_flipper);
@@ -116,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return false;
     }
 
@@ -130,4 +136,24 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
                 .show();
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.menu_home){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        else if (item.getItemId() == R.id.menu_shop){
+            Intent intent = new Intent(this, ShopActivity.class);
+            startActivity(intent);
+        }
+
+        else if (item.getItemId() == R.id.menu_feedback){
+            Intent intent = new Intent(this, FeedbackActivity.class);
+            startActivity(intent);
+
+        }
+        return true;
+    }
 }

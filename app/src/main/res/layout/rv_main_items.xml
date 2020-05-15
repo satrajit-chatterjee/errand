@@ -97,7 +97,7 @@
         android:layout_height="405dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:layout_marginVertical="415dp">
+        android:layout_marginTop="415dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,16 +126,6 @@
                 android:text="Check out our range of services brought to you from a local vendor!"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:gravity="center_vertical|center_horizontal"/>
-            <TextView
-                android:id="@+id/text_12_per"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="We charge 12% of your total bill as service charges*"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:textColor="@color/black"
-                android:fontFamily="@font/avenir" />
-
             <ViewFlipper
                 android:id="@+id/service_flipper"
                 android:layout_width="match_parent"
@@ -145,6 +135,36 @@
             </ViewFlipper>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="815dp">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="left"
+            android:text="Contact Us:"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="@color/black"
+            android:fontFamily="@font/avenir" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:text="9874972209 / 9836647325 / 033 4064 0074 \n\nleerrandcompany@gmail.com"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/black"
+            android:fontFamily="@font/avenir"/>
 
     </LinearLayout>
 

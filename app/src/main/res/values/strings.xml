@@ -21,4 +21,5 @@
     <string name="shop_now">Shop Now</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="delivery_rates">Deliveries:\n\nRs.90 for orders upto Rs.1000\nRs.120 for orders ranging between Rs.1000-3000\nRs.500 for orders above Rs.3000</string>
 </resources>
