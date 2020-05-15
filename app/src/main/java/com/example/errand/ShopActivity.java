@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,16 +87,19 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         if (item.getItemId() == R.id.menu_home){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_shop){
             Intent intent = new Intent(this, ShopActivity.class);
             startActivity(intent);
+            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_feedback){
             Intent intent = new Intent(this, FeedbackActivity.class);
             startActivity(intent);
+            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
 
         }
         return true;

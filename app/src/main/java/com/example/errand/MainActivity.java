@@ -83,14 +83,14 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
 //        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
 
@@ -142,17 +142,19 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
         if (item.getItemId() == R.id.menu_home){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_shop){
             Intent intent = new Intent(this, ShopActivity.class);
             startActivity(intent);
+            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_feedback){
             Intent intent = new Intent(this, FeedbackActivity.class);
             startActivity(intent);
-
+            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
         return true;
     }
