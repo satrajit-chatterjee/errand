@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -37,6 +39,8 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
     ViewFlipper adflipper;
     private Toolbar mToolbar;
     NavigationView navView;
+    private Intent login_intent;
+    private MaterialButton feedbackSubmit;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +86,27 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
 //
 //        });
 
+        login_intent = getIntent();
+        feedbackSubmit = (MaterialButton) findViewById(R.id.feedback_submit);
+        feedbackSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (feedbackSubmit.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(),
+                            "You have not entered a feedback",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                else {
+                    String getFName = login_intent.getStringExtra("fname");
+                    String getLName = login_intent.getStringExtra("lname");
+                    String getEmail = login_intent.getStringExtra("email");
+                    String getPhNo = login_intent.getStringExtra("phno");
+                    String getAdd = login_intent.getStringExtra("addr");
+
+                }
+            }
+        });
 
     }
 
@@ -123,18 +148,33 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_home){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_shop){
             Intent intent = new Intent(this, ShopActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_feedback){
             Intent intent = new Intent(this, FeedbackActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
 

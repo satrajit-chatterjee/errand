@@ -25,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -39,6 +40,8 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
     ViewFlipper adflipper;
     private Toolbar mToolbar;
     NavigationView navView;
+    private MaterialButton shop_button;
+    private Intent login_intent;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +92,26 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-
+        login_intent = getIntent();
+        shop_button = (MaterialButton) findViewById(R.id.shop_submit);
+        shop_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shopText.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter your order details",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                else {
+                    String getFName = login_intent.getStringExtra("fname");
+                    String getLName = login_intent.getStringExtra("lname");
+                    String getEmail = login_intent.getStringExtra("email");
+                    String getPhNo = login_intent.getStringExtra("phno");
+                    String getAdd = login_intent.getStringExtra("addr");
+                }
+            }
+        });
 
     }
 
@@ -131,18 +153,33 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_home){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_shop){
             Intent intent = new Intent(this, ShopActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_feedback){
             Intent intent = new Intent(this, FeedbackActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
 

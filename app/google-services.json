@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "228803836691",
+    "firebase_url": "https://errand-4e6cb.firebaseio.com",
+    "project_id": "errand-4e6cb",
+    "storage_bucket": "errand-4e6cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228803836691:android:0de5237d5d9b1ad314b8e6",
+        "android_client_info": {
+          "package_name": "com.example.errand"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228803836691-7skrlt185v39ca38fhlshl0k7rtkkdjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKG7EZ6uzbUqD17whWFvw0KWK6avl5m9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228803836691-7skrlt185v39ca38fhlshl0k7rtkkdjp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

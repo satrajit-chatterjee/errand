@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
     private Toolbar mToolbar;
     NavigationView navView;
     RecyclerView recyclerView;
+    private Intent login_intent;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -100,6 +101,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
         recyclerView.setLayoutManager(rvLayoutmanager);
         MainAdapter mRecyclerAdapter = new MainAdapter(this,  this);
         recyclerView.setAdapter(mRecyclerAdapter);
+
+
+        login_intent = getIntent();
     }
 
 //    @Override
@@ -129,6 +133,11 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
     @Override
     public void onButtonClick(int position) {
         Intent intent = new Intent(this, ShopActivity.class);
+        intent.putExtra("fname", login_intent.getStringExtra("fname"));
+        intent.putExtra("lname", login_intent.getStringExtra("lname"));
+        intent.putExtra("email", login_intent.getStringExtra("email"));
+        intent.putExtra("phno", login_intent.getStringExtra("phno"));
+        intent.putExtra("addr", login_intent.getStringExtra("addr"));
         startActivity(intent);
     }
 
@@ -137,18 +146,33 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
 
         if (item.getItemId() == R.id.menu_home){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_shop){
             Intent intent = new Intent(this, ShopActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
 
         else if (item.getItemId() == R.id.menu_feedback){
             Intent intent = new Intent(this, FeedbackActivity.class);
+            intent.putExtra("fname", login_intent.getStringExtra("fname"));
+            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("email", login_intent.getStringExtra("email"));
+            intent.putExtra("phno", login_intent.getStringExtra("phno"));
+            intent.putExtra("addr", login_intent.getStringExtra("addr"));
             startActivity(intent);
             mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
         }
