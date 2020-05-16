@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +25,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class FeedbackActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    private static final String TAG = FeedbackActivity.class.getName();
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
@@ -41,6 +54,9 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
     NavigationView navView;
     private Intent login_intent;
     private MaterialButton feedbackSubmit;
+
+    private FirebaseFirestore db;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,8 +74,13 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.setDrawerIndicatorEnabled(true);
         mToggle.syncState();
+
+        feedbackText = (TextInputEditText) findViewById(R.id.feedback_text);
+
         mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+
+        db = FirebaseFirestore.getInstance();
 
         nav_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,30 +91,60 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-//        feedbackText.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                view.getParent().requestDisallowInterceptTouchEvent(true);
-//                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
-//                    case MotionEvent.ACTION_UP:
-//                        view.getParent().requestDisallowInterceptTouchEvent(false);
-//                        break;
-//                }
-//
-//                return false;
-//            }
-//
-//        });
+        feedbackText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                return false;
+            }
+
+        });
 
         login_intent = getIntent();
+
+
+        // Add new user to Firestore database
+        db.collection("Users").document(login_intent.getStringExtra("phno")).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (!task.getResult().exists()){
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("fname", login_intent.getStringExtra("phno"));
+                            user.put("fname", login_intent.getStringExtra("fname"));
+                            user.put("fname", login_intent.getStringExtra("lname"));
+                            user.put("fname", login_intent.getStringExtra("email"));
+                            user.put("fname", login_intent.getStringExtra("addr"));
+                            db.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
+                        }
+                    }
+                });
+
+
         feedbackSubmit = (MaterialButton) findViewById(R.id.feedback_submit);
         feedbackSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (feedbackSubmit.getText().toString().isEmpty()) {
+                if (feedbackText.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(),
-                            "You have not entered a feedback",
+                            "Please enter a feedback.",
                             Toast.LENGTH_LONG)
                             .show();
                 }
@@ -103,6 +154,31 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
                     String getEmail = login_intent.getStringExtra("email");
                     String getPhNo = login_intent.getStringExtra("phno");
                     String getAdd = login_intent.getStringExtra("addr");
+
+                    Map<String, Object> new_feedback = new HashMap<>();
+                    new_feedback.put("feedback", feedbackText.getText().toString());
+                    new_feedback.put("timestamp", FieldValue.serverTimestamp());
+
+
+                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
+                            .document(login_intent.getStringExtra("phno"))
+                            .set(new_feedback)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    Toast.makeText(getApplicationContext(),
+                                            "Thank you for your feedback!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
 
                 }
             }

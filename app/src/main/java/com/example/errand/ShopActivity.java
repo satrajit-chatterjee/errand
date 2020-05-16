@@ -3,9 +3,11 @@ package com.example.errand;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,13 +27,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ShopActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = ShopActivity.class.getName();
 
     private DrawerLayout mDrawerLayout;
     private TextInputEditText shopText;
@@ -42,11 +56,14 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navView;
     private MaterialButton shop_button;
     private Intent login_intent;
+    private FirebaseFirestore db;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shop_activity);
+
+        db = FirebaseFirestore.getInstance();
 
         flipperAds();
         mToolbar = findViewById(R.id.topAppBar_shop);
@@ -93,6 +110,36 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
 
 
         login_intent = getIntent();
+
+
+        // Add new user to Firestore database
+        db.collection("Users").document(login_intent.getStringExtra("phno")).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (!task.getResult().exists()){
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("fname", login_intent.getStringExtra("phno"));
+                            user.put("fname", login_intent.getStringExtra("fname"));
+                            user.put("fname", login_intent.getStringExtra("lname"));
+                            user.put("fname", login_intent.getStringExtra("email"));
+                            user.put("fname", login_intent.getStringExtra("addr"));
+                            db.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
+                        }
+                    }
+                });
+
+
         shop_button = (MaterialButton) findViewById(R.id.shop_submit);
         shop_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +156,32 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                     String getEmail = login_intent.getStringExtra("email");
                     String getPhNo = login_intent.getStringExtra("phno");
                     String getAdd = login_intent.getStringExtra("addr");
+
+                    Map<String, Object> new_order = new HashMap<>();
+                    new_order.put("order_details", shopText.getText().toString());
+                    new_order.put("timestamp", FieldValue.serverTimestamp());
+
+                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
+                            .document(login_intent.getStringExtra("phno"))
+                            .set(new_order)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    Toast.makeText(getApplicationContext(),
+                                            "Order Success!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+
                 }
             }
         });
