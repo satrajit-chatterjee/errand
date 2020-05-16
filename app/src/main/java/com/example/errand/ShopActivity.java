@@ -1,13 +1,17 @@
 package com.example.errand;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -22,12 +26,14 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
 public class ShopActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
+    private TextInputEditText shopText;
     private ActionBarDrawerToggle mToggle;
     private ImageButton nav_button;
     ViewFlipper adflipper;
@@ -45,6 +51,9 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         nav_button = (ImageButton) findViewById(R.id.nav_button_shop);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_shop);
         navView = findViewById(R.id.nav_view);
+
+        shopText = (TextInputEditText) findViewById(R.id.shop_text);
+
         navView.setNavigationItemSelectedListener(this);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
@@ -63,6 +72,24 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
+        shopText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                return false;
+            }
+
+        });
+
+
+
 
     }
 
@@ -72,6 +99,24 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         adflipper.setInAnimation(this, android.R.anim.slide_in_left);
         adflipper.setOutAnimation(this, android.R.anim.slide_out_right);
         adflipper.startFlipping();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof TextInputEditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 
     @Override

@@ -130,10 +130,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
     public void onButtonClick(int position) {
         Intent intent = new Intent(this, ShopActivity.class);
         startActivity(intent);
-        Toast.makeText(getApplicationContext(),
-                "Shop Activity Triggered",
-                Toast.LENGTH_LONG)
-                .show();
     }
 
     @Override
@@ -158,4 +154,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
         }
         return true;
     }
+
+
 }

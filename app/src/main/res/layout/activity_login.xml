@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
-    android:background="@drawable/errand_bg">
+    android:background="@drawable/splash_background">
     
     <RelativeLayout
         android:layout_width="wrap_content"

@@ -38,4 +38,28 @@
         <item name="colorControlHighlight">@color/white</item>
     </style>
 
+    <style name="nav_drawer_style" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/avenir</item>
+    </style>
+
+    <style name="ThemeOverlay.AppCompat.navTheme">
+
+        <!-- Color of text and icon when SELECTED -->
+        <item name="colorPrimary">@color/black</item>
+
+        <!-- Background color when SELECTED -->
+        <item name="colorControlHighlight">@color/mainTheme</item>
+        <item name="android:layout_marginBottom">50dp</item>
+    </style>
+
+    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- reference our hint & error styles -->
+        <item name="hintTextAppearance">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/mainTheme</item>
+        <item name="colorControlHighlight">@color/mainTheme</item>
+    </style>
+
 </resources>

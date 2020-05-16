@@ -125,14 +125,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/fab"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="bottom|end"-->
-<!--            android:layout_margin="@dimen/fab_margin"-->
-<!--            app:srcCompat="@android:drawable/ic_dialog_email" />-->
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
@@ -141,6 +133,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:menu="@menu/menu_main"
+        android:theme="@style/ThemeOverlay.AppCompat.navTheme"
+        app:itemTextAppearance="@style/nav_drawer_style"
+        app:itemIconPadding="100dp"
+        android:paddingTop="100dp"
+        app:itemIconTint="@color/mainTheme"
         android:layout_marginTop="84dp"
         android:layout_gravity="right"
         android:layoutDirection="rtl">

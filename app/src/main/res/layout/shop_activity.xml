@@ -151,7 +151,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="283dp"
+                    android:layout_height="500dp"
                     android:layout_marginTop="400dp"
                     android:orientation="vertical">
 
@@ -160,6 +160,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:elevation="@dimen/cardview_default_elevation"
+                        android:theme="@style/TextInputLayoutAppearance"
                         android:hint="Write your order details here!"
                         android:paddingHorizontal="20sp"
                         app:boxCornerRadiusBottomEnd="5dp"
@@ -169,8 +170,13 @@
                         app:counterTextAppearance="@font/avenir">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/shop_text"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp" />
+                            android:overScrollMode="always"
+                            android:inputType="textMultiLine"
+                            android:scrollbarStyle="insideInset"
+                            android:scrollbars="vertical"
+                            android:layout_height="300dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -193,13 +199,13 @@
                         app:strokeColor="@color/black"
                         app:strokeWidth="1dp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginTop="30dp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="20dp"-->
+<!--                        android:layout_marginTop="300dp">-->
 
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
                 </LinearLayout>
 
@@ -274,6 +280,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:menu="@menu/menu_main"
+        android:theme="@style/ThemeOverlay.AppCompat.navTheme"
+        app:itemTextAppearance="@style/nav_drawer_style"
+        app:itemIconPadding="100dp"
+        android:paddingTop="100dp"
+        app:itemIconTint="@color/mainTheme"
         android:layout_marginTop="84dp"
         android:layout_gravity="right"
         android:layoutDirection="rtl">

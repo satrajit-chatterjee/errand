@@ -1,12 +1,16 @@
 package com.example.errand;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ViewFlipper;
 
@@ -20,6 +24,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
@@ -27,6 +32,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    private TextInputEditText feedbackText;
     private ImageButton nav_button;
     ViewFlipper adflipper;
     private Toolbar mToolbar;
@@ -60,6 +66,22 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
+//        feedbackText.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                view.getParent().requestDisallowInterceptTouchEvent(true);
+//                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
+//                    case MotionEvent.ACTION_UP:
+//                        view.getParent().requestDisallowInterceptTouchEvent(false);
+//                        break;
+//                }
+//
+//                return false;
+//            }
+//
+//        });
+
 
     }
 
@@ -69,6 +91,24 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
         adflipper.setInAnimation(this, android.R.anim.slide_in_left);
         adflipper.setOutAnimation(this, android.R.anim.slide_out_right);
         adflipper.startFlipping();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof TextInputEditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 
     @Override
