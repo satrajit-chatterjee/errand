@@ -37,6 +37,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -110,27 +114,28 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
         login_intent = getIntent();
 
 
-        // Add new user to Firestore database
+//         Add new user to Firestore database
         db.collection("Users").document(login_intent.getStringExtra("phno")).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (!task.getResult().exists()){
                             Map<String, Object> user = new HashMap<>();
-                            user.put("fname", login_intent.getStringExtra("phno"));
+                            user.put("phno", login_intent.getStringExtra("phno"));
                             user.put("fname", login_intent.getStringExtra("fname"));
-                            user.put("fname", login_intent.getStringExtra("lname"));
-                            user.put("fname", login_intent.getStringExtra("email"));
-                            user.put("fname", login_intent.getStringExtra("addr"));
-                            db.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            user.put("lname", login_intent.getStringExtra("lname"));
+                            user.put("email", login_intent.getStringExtra("email"));
+                            user.put("addr", login_intent.getStringExtra("addr"));
+                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding document", e);
+                                    Log.w(TAG, "Error writing document", e);
+
                                 }
                             });
                         }
@@ -149,19 +154,19 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
                             .show();
                 }
                 else {
-                    String getFName = login_intent.getStringExtra("fname");
-                    String getLName = login_intent.getStringExtra("lname");
-                    String getEmail = login_intent.getStringExtra("email");
-                    String getPhNo = login_intent.getStringExtra("phno");
-                    String getAdd = login_intent.getStringExtra("addr");
-
                     Map<String, Object> new_feedback = new HashMap<>();
+                    new_feedback.put("phno", login_intent.getStringExtra("phno"));
                     new_feedback.put("feedback", feedbackText.getText().toString());
-                    new_feedback.put("timestamp", FieldValue.serverTimestamp());
+                    new_feedback.put("fname", login_intent.getStringExtra("fname"));
+                    new_feedback.put("lname", login_intent.getStringExtra("lname"));
+                    new_feedback.put("email", login_intent.getStringExtra("email"));
+                    new_feedback.put("addr", login_intent.getStringExtra("addr"));
+                    Date date = Calendar.getInstance().getTime();
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                    String dateTime = dateFormat.format(date);
 
-
-                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
-                            .document(login_intent.getStringExtra("phno"))
+                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("feedback")
+                            .document(dateTime)
                             .set(new_feedback)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -177,9 +182,14 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error writing document", e);
+                                    Toast.makeText(getApplicationContext(),
+                                            "There was an error submitting your feedback.",
+                                            Toast.LENGTH_LONG)
+                                            .show();
                                 }
                             });
 
+                    feedbackText.getText().clear();
                 }
             }
         });

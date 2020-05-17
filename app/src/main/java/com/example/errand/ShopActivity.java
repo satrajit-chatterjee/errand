@@ -38,7 +38,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ServerTimestamp;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -111,7 +116,6 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
 
         login_intent = getIntent();
 
-
         // Add new user to Firestore database
         db.collection("Users").document(login_intent.getStringExtra("phno")).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -119,27 +123,27 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (!task.getResult().exists()){
                             Map<String, Object> user = new HashMap<>();
-                            user.put("fname", login_intent.getStringExtra("phno"));
+                            user.put("phno", login_intent.getStringExtra("phno"));
                             user.put("fname", login_intent.getStringExtra("fname"));
-                            user.put("fname", login_intent.getStringExtra("lname"));
-                            user.put("fname", login_intent.getStringExtra("email"));
-                            user.put("fname", login_intent.getStringExtra("addr"));
-                            db.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            user.put("lname", login_intent.getStringExtra("lname"));
+                            user.put("email", login_intent.getStringExtra("email"));
+                            user.put("addr", login_intent.getStringExtra("addr"));
+                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding document", e);
+                                    Log.w(TAG, "Error writing document", e);
                                 }
                             });
                         }
                     }
                 });
 
-
+        // TODO: Use toast messages to first check if all info is coming to this activity
         shop_button = (MaterialButton) findViewById(R.id.shop_submit);
         shop_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,18 +155,19 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                             .show();
                 }
                 else {
-                    String getFName = login_intent.getStringExtra("fname");
-                    String getLName = login_intent.getStringExtra("lname");
-                    String getEmail = login_intent.getStringExtra("email");
-                    String getPhNo = login_intent.getStringExtra("phno");
-                    String getAdd = login_intent.getStringExtra("addr");
-
                     Map<String, Object> new_order = new HashMap<>();
+                    new_order.put("phno", login_intent.getStringExtra("phno"));
                     new_order.put("order_details", shopText.getText().toString());
-                    new_order.put("timestamp", FieldValue.serverTimestamp());
+                    new_order.put("fname", login_intent.getStringExtra("fname"));
+                    new_order.put("lname", login_intent.getStringExtra("lname"));
+                    new_order.put("email", login_intent.getStringExtra("email"));
+                    new_order.put("addr", login_intent.getStringExtra("addr"));
+                    Date date = Calendar.getInstance().getTime();
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                    String dateTime = dateFormat.format(date);
 
                     db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
-                            .document(login_intent.getStringExtra("phno"))
+                            .document(dateTime)
                             .set(new_order)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -178,8 +183,14 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error writing document", e);
+                                    Toast.makeText(getApplicationContext(),
+                                            "There was an error submitting your order.",
+                                            Toast.LENGTH_LONG)
+                                            .show();
                                 }
                             });
+
+                    shopText.getText().clear();
 
 
                 }
