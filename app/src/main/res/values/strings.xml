@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Errand</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="ph_no">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="main_subtitle1">We will deliver anything you need to your doorstep. Need an errand to be run? We will do it.</string>
+    <string name="main_heading1">STAY HOME\nSTAY SAFE</string>
+    <string name="main_subtitle2">Anything you need done, we will get it done and at super affordable rates!</string>
+    <string name="shop_now">Shop Now</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="delivery_rates">Deliveries:\n\nRs.90 for orders upto Rs.1000\nRs.120 for orders ranging between Rs.1000-3000\nRs.500 for orders above Rs.3000</string>
+</resources>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/main_intro_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/stroke_color"
+    app:cardElevation="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/mainTheme"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title, secondary and supporting text -->
+            <TextView
+                android:id="@+id/text_banner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_heading1"
+                android:textColor="@color/white"
+                android:fontFamily="@font/futura"
+                android:textAppearance="?attr/textAppearanceHeadline3"
+                />
+            <TextView
+                android:id="@+id/text_banner_desc1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/futura"
+                android:text="@string/main_subtitle1"
+                android:textAppearance="?attr/textAppearanceSubtitle1" />
+            <TextView
+                android:id="@+id/text_banner_desc2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/main_subtitle2"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:textColor="@color/white"
+                android:fontFamily="@font/futura" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shop_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeWidth="1dp"
+                app:cornerRadius="0dp"
+                app:strokeColor="@color/white"
+                android:text="@string/shop_now"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:fontFamily="@font/futura"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:gravity="center"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:paddingHorizontal="30dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_pod"
+            android:padding="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futura"
+            android:text="And Pay on Delivery!"
+            android:textSize="18sp"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="405dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="415dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title, secondary and supporting text -->
+            <TextView
+                android:id="@+id/text_our_serv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Our Services"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir"
+                android:textAppearance="?attr/textAppearanceHeadline4"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:id="@+id/text_serv_ran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir"
+                android:text="Check out our range of services brought to you from a local vendor!"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:gravity="center_vertical|center_horizontal"/>
+            <ViewFlipper
+                android:id="@+id/service_flipper"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="20dp">
+
+            </ViewFlipper>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="815dp">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="left"
+            android:text="Contact Us:"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="@color/black"
+            android:fontFamily="@font/avenir" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:text="9874972209 / 9836647325 / 033 4064 0074 \n\nleerrandcompany@gmail.com"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/black"
+            android:fontFamily="@font/avenir"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

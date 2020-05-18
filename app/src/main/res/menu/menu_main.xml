@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.errand.MainActivity">
+    <item
+        android:id="@+id/menu_home"
+        android:title="Home"
+        android:icon="@drawable/nav_home" />
+    <item
+        android:id="@+id/menu_shop"
+        android:title="Shop"
+        android:icon="@drawable/nav_shop" />
+    <item
+        android:id="@+id/menu_feedback"
+        android:title="Feedback"
+        android:icon="@drawable/nav_feedback"/>
+</menu>

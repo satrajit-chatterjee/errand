@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/splash_background">
+    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_centerInParent="true">
+        
+        <ImageView
+            android:id="@+id/imgView_logo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/errand_logo_white"/>
+
+        <RelativeLayout
+            android:id="@+id/rellay1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_below="@+id/imgView_logo">
+
+            <EditText
+                android:id="@+id/tv_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/EditTextHint"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/avenir"
+                android:hint="@string/first_name"
+                android:inputType="textPersonName"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:background="@drawable/text_bg"
+                android:gravity="center"
+                android:paddingTop="2dp"
+                android:paddingHorizontal="25dp"/>
+            
+            <LinearLayout
+                android:id="@+id/tv_last_name"
+                android:layout_below="@+id/tv_first_name"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/last_name"
+                    android:theme="@style/EditTextHint"
+                    android:inputType="textPersonName"
+                    android:textSize="30sp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/avenir"
+                    android:textColor="@color/white"
+                    android:background="@drawable/text_bg"
+                    android:gravity="center"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tv_email"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_last_name">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:theme="@style/EditTextHint"
+                    android:background="@drawable/text_bg"
+                    android:fontFamily="@font/avenir"
+                    android:gravity="center"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlay_phnm"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_email">
+
+                <EditText
+                    android:id="@+id/ph_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:theme="@style/EditTextHint"
+                    android:background="@drawable/text_bg"
+                    android:fontFamily="@font/avenir"
+                    android:gravity="center"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:hint="@string/ph_no"
+                    android:inputType="phone"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlay_add"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linlay_phnm">
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:theme="@style/EditTextHint"
+                    android:background="@drawable/text_bg"
+                    android:fontFamily="@font/avenir"
+                    android:gravity="center"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:hint="@string/address"
+                    android:inputType="textPostalAddress"
+                    android:maxLines="3"
+                    android:lines="3"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"/>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linlay_add"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/white"
+                android:text="Continue"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:fontFamily="@font/avenir"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:paddingHorizontal="25dp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
