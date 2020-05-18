@@ -46,3 +46,12 @@ Since our app does not catalogue specific products, it would be better to have a
 > 4. Maintain records of each customer: number of orders, order addresses, chat history, call history, feedback history, issue history, payment history. 
 > 5. Update admin on receiving order, distribute order to delivery boys using load-sharing algorithm, distribute and assign orders using Telegram. 
 
+### Platform Services:
+The following lists the present platform services. They will be progressively expanded:
+> 1. Food and grocery delivery(includes fresh vegetables, meats, etc)
+Future: 
+> 2. Salon jobs
+> 3. Hire Driver
+> 4. AC Repair
+> 5. Plumbing services
+> 6. Cab services
