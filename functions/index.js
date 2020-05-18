@@ -11,7 +11,7 @@ const gmailPassword = functions.config().gmail.pass;
 admin.initializeApp();
 
 //creating function for sending emails
-var goMail = function (message) {
+var goMail = function (message, title) {
 
 //transporter is a way to send your emails
     const transporter = nodemailer.createTransport({
@@ -27,7 +27,7 @@ var goMail = function (message) {
     const mailOptions = {
         from: gmailEmail, // sender address
         to: ['satrajitdchatterjee@gmail.com', "sanchitadchakraborty@gmail.com", "leerrandcompany@gmail.com"], // list of receivers
-        subject: 'New Order Placed', // Subject line
+        subject: title, // Subject line
         text: '!' + JSON.stringify(message), // plain text body
     };
 
@@ -44,23 +44,20 @@ var goMail = function (message) {
     transporter.sendMail(mailOptions, getDeliveryStatus);
 };
 
-//.onDataAdded is watches for changes in database
-// exports.onDataAdded = functions.firestore.document('Users/').onWrite((change, context))=> {
-
-//     //here we catch a new data, added to firebase database, it stored in a snap variable
-//     const createdData = snap.val();
-//     var text = createdData.mail;
-
-//     //here we send new data using function for sending emails
-//     goMail(text);
-// });
-
 
 exports.onDataAdded = functions.firestore
     .document('Users/{phno}/{active_orders}/{dateTime}')
     .onWrite((snap, context) => {
     const createdData = snap.after.data();
     console.log(createdData);
-    goMail(createdData);
-
+    return goMail(createdData, "Received New Order");
     });
+
+exports.onFeedbackAdded = functions.firestore
+    .document('Users/{phno}/{feedback}/{dateTime}')
+    .onWrite((snap, context) => {
+    const createdData = snap.after.data();
+    console.log(createdData);
+    return goMail(createdData, "Received New Feedback");
+    });
+
