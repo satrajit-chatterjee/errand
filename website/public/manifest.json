@@ -1,0 +1,25 @@
+{
+  "short_name": "TheErrandCo.",
+  "name": "The Errand Company",
+  "icons": [
+    {
+      "src": "errand_logo_red_bold.png",
+      "sizes": "64x64 32x32 16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "output-onlinepngtools.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "errand_logo_red_bold.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#b3294e",
+  "background_color": "#f5f5f5"
+}
