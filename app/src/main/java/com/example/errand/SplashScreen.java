@@ -71,52 +71,8 @@ public class SplashScreen extends AppCompatActivity {
         final Button btnSubmit = (Button) findViewById(R.id.button);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (first_name.getText().toString().isEmpty() || last_name.getText().toString().isEmpty() || password.getText().toString().isEmpty() ||
-                        phoneno.getText().toString().isEmpty() || email.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter all details",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-                else {
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                    final String getFName = first_name.getText().toString();
-                    final String getLName = last_name.getText().toString();
-                    final String getEmail = email.getText().toString();
-                    final String getPhNo = phoneno.getText().toString();
-                    final String getPass = password.getText().toString();
-
-                    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                    if (currentUser == null){
-                        firebaseAuth.signInWithEmailAndPassword(getEmail, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    Toast.makeText(getApplicationContext(),
-                                            "Signed in as " + getFName + getLName,
-                                            Toast.LENGTH_SHORT)
-                                            .show();
-                                }
-                                else {
-                                    // pop-up button to confirm new account
-                                    ShowPopup(getEmail, getPass);
-                                }
-                            }
-                        });
-                    }
-                    intent.putExtra("fname", getFName);
-                    intent.putExtra("lname", getLName);
-                    intent.putExtra("email", getEmail);
-                    intent.putExtra("phno", getPhNo);
-                    intent.putExtra("addr", getPass);
-                    startActivity(intent);
-                }
-            }
-        });
+        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        final Intent intent = new Intent(SplashScreen.this, MainActivity.class);
 
         Animation hold = AnimationUtils.loadAnimation(this, R.anim.hold);
 
@@ -173,13 +129,67 @@ public class SplashScreen extends AppCompatActivity {
 
         imageView.startAnimation(hold);
 
+        if (currentUser != null){
+            startActivity(intent);
+        }
+        else {
+            btnSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (first_name.getText().toString().isEmpty() || last_name.getText().toString().isEmpty() || password.getText().toString().isEmpty() ||
+                            phoneno.getText().toString().isEmpty() || email.getText().toString().isEmpty()) {
+                        Toast.makeText(getApplicationContext(),
+                                "Please enter all details",
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                    else {
+                        final String getFName = first_name.getText().toString();
+                        final String getLName = last_name.getText().toString();
+                        final String getEmail = email.getText().toString();
+                        final String getPhNo = phoneno.getText().toString();
+                        final String getPass = password.getText().toString();
+                        intent.putExtra("fname", getFName);
+                        intent.putExtra("lname", getLName);
+                        intent.putExtra("email", getEmail);
+                        intent.putExtra("phno", getPhNo);
+                        intent.putExtra("addr", getPass);
 
+                        if (currentUser == null){
+                            firebaseAuth.signInWithEmailAndPassword(getEmail, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()){
+                                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                                        Toast.makeText(getApplicationContext(),
+                                                "Signed in as " + getFName + " " +getLName,
+                                                Toast.LENGTH_LONG)
+                                                .show();
+                                        startActivity(intent);
+                                    }
+                                    else {
+                                        // pop-up button to confirm new account
+                                        ShowPopup(getEmail, getPass, intent);
+                                    }
+                                }
+                            });
+                        }
+                        else Toast.makeText(getApplicationContext(),
+                                "Nope",
+                                Toast.LENGTH_SHORT)
+                                .show();
 
+                    }
+                }
+            });
         }
 
-    public void ShowPopup(String email, String pass){
+    }
+
+    public void ShowPopup(String email, String pass, Intent i){
         final String emailId = email;
         final String password = pass;
+        final Intent intent = i;
         TextView txtClose;
         MaterialButton confirm;
         newAcc.setContentView(R.layout.new_acc_popup);
@@ -201,6 +211,7 @@ public class SplashScreen extends AppCompatActivity {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             Toast.makeText(SplashScreen.this, "Account Created!",
                                     Toast.LENGTH_SHORT).show();
+                            startActivity(intent);
                         }
                         else {
                             Toast.makeText(SplashScreen.this, "Authentication failed!",
