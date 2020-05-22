@@ -30,8 +30,8 @@ Since our app does not catalogue specific products, it would be better to have a
 > 5. Track present order status
 
 #### D. Login activity: 
-> 1. Use present splash screen to lead to sign-in or sign-up
-> 2. Use google auth to verify email, phone, and sign-in 
+> 1. Use present splash screen to lead to sign-in or sign-up [DONE]
+> 2. Use google auth to verify email, phone, and sign-in [DONE]
 > 3. Locate customers (g-maps) to use as default present delivery address
 
 
