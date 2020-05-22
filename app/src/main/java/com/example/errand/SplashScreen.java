@@ -1,13 +1,23 @@
 package com.example.errand;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
@@ -20,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SplashScreen extends AppCompatActivity {
@@ -35,6 +46,11 @@ public class SplashScreen extends AppCompatActivity {
         }
     };
 
+    Dialog newAcc;
+
+
+    FirebaseAuth firebaseAuth;
+
 //    public void sendMessage(View view) {
 //        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
 //        startActivity(intent);
@@ -45,16 +61,20 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        newAcc = new Dialog(this);
+
         final EditText first_name = (EditText) findViewById(R.id.tv_first_name);
         final EditText last_name = (EditText) findViewById(R.id.last_name);
         final EditText email = (EditText) findViewById(R.id.email);
         final EditText phoneno = (EditText)findViewById(R.id.ph_no);
-        final EditText address = (EditText)findViewById(R.id.address);
+        final EditText password = (EditText)findViewById(R.id.password);
         final Button btnSubmit = (Button) findViewById(R.id.button);
+
+        firebaseAuth = FirebaseAuth.getInstance();
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (first_name.getText().toString().isEmpty() || last_name.getText().toString().isEmpty() || address.getText().toString().isEmpty() ||
+                if (first_name.getText().toString().isEmpty() || last_name.getText().toString().isEmpty() || password.getText().toString().isEmpty() ||
                         phoneno.getText().toString().isEmpty() || email.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(),
                             "Please enter all details",
@@ -63,17 +83,36 @@ public class SplashScreen extends AppCompatActivity {
                 }
                 else {
                     Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                    String getFName = first_name.getText().toString();
-                    String getLName = last_name.getText().toString();
-                    String getEmail = email.getText().toString();
-                    String getPhNo = phoneno.getText().toString();
-                    String getAdd = address.getText().toString();
+                    final String getFName = first_name.getText().toString();
+                    final String getLName = last_name.getText().toString();
+                    final String getEmail = email.getText().toString();
+                    final String getPhNo = phoneno.getText().toString();
+                    final String getPass = password.getText().toString();
 
+                    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                    if (currentUser == null){
+                        firebaseAuth.signInWithEmailAndPassword(getEmail, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                                    Toast.makeText(getApplicationContext(),
+                                            "Signed in as " + getFName + getLName,
+                                            Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                                else {
+                                    // pop-up button to confirm new account
+                                    ShowPopup(getEmail, getPass);
+                                }
+                            }
+                        });
+                    }
                     intent.putExtra("fname", getFName);
                     intent.putExtra("lname", getLName);
                     intent.putExtra("email", getEmail);
                     intent.putExtra("phno", getPhNo);
-                    intent.putExtra("addr", getAdd);
+                    intent.putExtra("addr", getPass);
                     startActivity(intent);
                 }
             }
@@ -137,6 +176,44 @@ public class SplashScreen extends AppCompatActivity {
 
 
         }
+
+    public void ShowPopup(String email, String pass){
+        final String emailId = email;
+        final String password = pass;
+        TextView txtClose;
+        MaterialButton confirm;
+        newAcc.setContentView(R.layout.new_acc_popup);
+        txtClose = (TextView) newAcc.findViewById(R.id.cancel_popup);
+        confirm = (MaterialButton) newAcc.findViewById(R.id.confirm_acc);
+        txtClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newAcc.dismiss();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.createUserWithEmailAndPassword(emailId, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            Toast.makeText(SplashScreen.this, "Account Created!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(SplashScreen.this, "Authentication failed!",
+                                    Toast.LENGTH_SHORT).show();
+                            newAcc.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+        newAcc.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        newAcc.show();
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {

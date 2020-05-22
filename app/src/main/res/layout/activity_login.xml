@@ -126,7 +126,7 @@
                 android:layout_below="@+id/linlay_phnm">
 
                 <EditText
-                    android:id="@+id/address"
+                    android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -136,9 +136,9 @@
                     android:gravity="center"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
-                    android:hint="@string/address"
-                    android:inputType="textPostalAddress"
-                    android:maxLines="3"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
                     android:lines="3"
                     android:textColor="@color/white"
                     android:textSize="30sp"/>
