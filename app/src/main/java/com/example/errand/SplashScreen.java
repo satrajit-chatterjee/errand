@@ -1,15 +1,28 @@
 package com.example.errand;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,8 +32,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.os.Handler;
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -32,6 +48,10 @@ import android.widget.RelativeLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -45,23 +65,49 @@ public class SplashScreen extends AppCompatActivity {
             rellay1.setVisibility(View.VISIBLE);
         }
     };
-
     Dialog newAcc;
-
-
     FirebaseAuth firebaseAuth;
+    Geocoder geocoder;
+    List<Address> addresses;
+    int PERMISSION_ID = 44;
+    FusedLocationProviderClient mFusedLocationClient;
 
-//    public void sendMessage(View view) {
-//        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-//        startActivity(intent);
-//    }
+
+    double latitude = 0.0;
+    double longitude = 0.0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getLastLocation();
+
         newAcc = new Dialog(this);
+        geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            addresses = geocoder.getFromLocation(22.565820, 88.463854, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(getApplicationContext(),
+                latitude + ", " + longitude,
+                Toast.LENGTH_LONG)
+                .show();
+
+        final String address = addresses.get(0).getAddressLine(0);
+        final String area = addresses.get(0).getLocality();
+        final String city = addresses.get(0).getAdminArea();
+        final String country = addresses.get(0).getCountryName();
+        final String postalcode = addresses.get(0).getPostalCode();
+
+//        Toast.makeText(getApplicationContext(),
+//                address + ", " + area + ", " + city,
+//                Toast.LENGTH_LONG)
+//                .show();
 
         final EditText first_name = (EditText) findViewById(R.id.tv_first_name);
         final EditText last_name = (EditText) findViewById(R.id.last_name);
@@ -149,11 +195,14 @@ public class SplashScreen extends AppCompatActivity {
                         final String getEmail = email.getText().toString();
                         final String getPhNo = phoneno.getText().toString();
                         final String getPass = password.getText().toString();
+//                        final String getAddr = address + ", " + area + ", " + city + ", " + postalcode;
+                        final String getAddr = "";
+
                         intent.putExtra("fname", getFName);
                         intent.putExtra("lname", getLName);
                         intent.putExtra("email", getEmail);
                         intent.putExtra("phno", getPhNo);
-                        intent.putExtra("addr", getPass);
+                        intent.putExtra("addr", getAddr);
 
                         if (currentUser == null){
                             firebaseAuth.signInWithEmailAndPassword(getEmail, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -184,6 +233,116 @@ public class SplashScreen extends AppCompatActivity {
             });
         }
 
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLastLocation(){
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                mFusedLocationClient.getLastLocation().addOnSuccessListener(
+                        new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location == null) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "got null",
+                                            Toast.LENGTH_SHORT)
+                                            .show();
+                                    requestNewLocationData();
+                                } else if(location != null) {
+//                                    Toast.makeText(getApplicationContext(),
+//                                            location + "",
+//                                            Toast.LENGTH_SHORT)
+//                                            .show();
+                                    final double[] lat = {location.getLatitude()};
+//                                    String sCoord[] = location.toString().split(" ");
+//                                    String str[] = sCoord[1].split(",");
+                                    latitude = lat[0];
+//                                    Toast.makeText(getApplicationContext(),
+//                                            latitude + "",
+//                                            Toast.LENGTH_SHORT)
+//                                            .show();
+                                    final double[] lon = { location.getLongitude()};
+//                                    longitude = Double.parseDouble(str[1]);
+                                }
+                            }
+                        }
+                );
+            } else {
+                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+                requestNewLocationData();
+            }
+        } else {
+            requestPermissions();
+        }
+
+//        Toast.makeText(getApplicationContext(),
+//                lat[0] + "",
+//                Toast.LENGTH_SHORT)
+//                .show();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData(){
+
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(0);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest, mLocationCallback,
+                Looper.myLooper()
+        );
+
+    }
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+//            Toast.makeText(getApplicationContext(),
+//                    mLastLocation + "",
+//                    Toast.LENGTH_SHORT)
+//                    .show();
+            latitude = mLastLocation.getLatitude();
+            longitude = mLastLocation.getLongitude();
+        }
+    };
+
+
+    private boolean checkPermissions(){
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissions(){
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSION_ID
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_ID) {
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                // Granted. Start getting the location information
+            }
+        }
+    }
+
+    private boolean isLocationEnabled(){
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+        );
     }
 
     public void ShowPopup(String email, String pass, Intent i){
