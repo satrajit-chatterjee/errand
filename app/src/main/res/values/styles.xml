@@ -52,6 +52,10 @@
         <item name="android:layout_marginBottom">50dp</item>
     </style>
 
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">#1F710E</item>
+    </style>
+
     <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <!-- reference our hint & error styles -->
         <item name="hintTextAppearance">@color/black</item>

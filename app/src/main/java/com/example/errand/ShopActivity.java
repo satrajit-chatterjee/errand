@@ -127,7 +127,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                             user.put("name", login_intent.getStringExtra("name"));
                             user.put("email", login_intent.getStringExtra("email"));
                             user.put("addr", login_intent.getStringExtra("addr"));
-                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            db.collection("Users").document(login_intent.getStringExtra("email")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -164,7 +164,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
                     String dateTime = dateFormat.format(date);
 
-                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
+                    db.collection("Users").document(login_intent.getStringExtra("email")).collection("active_orders")
                             .document(dateTime)
                             .set(new_order)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {

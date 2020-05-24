@@ -174,6 +174,7 @@ public class SplashScreen extends AppCompatActivity{
 
     }
 
+
     public void performSignUp(double lat, double lon){
         double lati = lat;
         double lono = lon;

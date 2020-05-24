@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navView;
     private Intent login_intent;
     private MaterialButton shopButton;
+    private MaterialButton acRepair;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_button = (ImageButton) findViewById(R.id.nav_button);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         shopButton = (MaterialButton) findViewById(R.id.shop_button);
+        acRepair = (MaterialButton) findViewById(R.id.ac_repair);
         navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(this);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
@@ -81,6 +83,73 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+
+        acRepair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("name", login_intent.getStringExtra("name"));
+                intent.putExtra("email", login_intent.getStringExtra("email"));
+                intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                startActivity(intent);
+            }
+        });
+
+
+    }
+
+    public void parlour(View view){
+        final Intent intent = new Intent(this, ShopActivity.class);
+        intent.putExtra("name", login_intent.getStringExtra("name"));
+        intent.putExtra("email", login_intent.getStringExtra("email"));
+        intent.putExtra("phno", login_intent.getStringExtra("phno"));
+        intent.putExtra("addr", login_intent.getStringExtra("addr"));
+        startActivity(intent);
+    }
+
+    public void grooming(View view){
+        final Intent intent = new Intent(this, ShopActivity.class);
+        intent.putExtra("name", login_intent.getStringExtra("name"));
+        intent.putExtra("email", login_intent.getStringExtra("email"));
+        intent.putExtra("phno", login_intent.getStringExtra("phno"));
+        intent.putExtra("addr", login_intent.getStringExtra("addr"));
+        startActivity(intent);
+    }
+
+    public void grocery(View view){
+        final Intent intent = new Intent(this, ShopActivity.class);
+        intent.putExtra("name", login_intent.getStringExtra("name"));
+        intent.putExtra("email", login_intent.getStringExtra("email"));
+        intent.putExtra("phno", login_intent.getStringExtra("phno"));
+        intent.putExtra("addr", login_intent.getStringExtra("addr"));
+        startActivity(intent);
+    }
+
+    public void fresh(View view){
+        final Intent intent = new Intent(this, ShopActivity.class);
+        intent.putExtra("name", login_intent.getStringExtra("name"));
+        intent.putExtra("email", login_intent.getStringExtra("email"));
+        intent.putExtra("phno", login_intent.getStringExtra("phno"));
+        intent.putExtra("addr", login_intent.getStringExtra("addr"));
+        startActivity(intent);
+    }
+
+    public void office(View view){
+        final Intent intent = new Intent(this, ShopActivity.class);
+        intent.putExtra("name", login_intent.getStringExtra("name"));
+        intent.putExtra("email", login_intent.getStringExtra("email"));
+        intent.putExtra("phno", login_intent.getStringExtra("phno"));
+        intent.putExtra("addr", login_intent.getStringExtra("addr"));
+        startActivity(intent);
+    }
+
+    public void other_services(View view){
+        final Intent intent = new Intent(this, ShopActivity.class);
+        intent.putExtra("name", login_intent.getStringExtra("name"));
+        intent.putExtra("email", login_intent.getStringExtra("email"));
+        intent.putExtra("phno", login_intent.getStringExtra("phno"));
+        intent.putExtra("addr", login_intent.getStringExtra("addr"));
+        startActivity(intent);
     }
 
     public void flipperAds(){
