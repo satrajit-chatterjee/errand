@@ -34,12 +34,15 @@ var goMail = function (_data, title) {
     if (("order_details" in email && title == "Received New Order") || 
         ("feedback" in email && title == "Received New Feedback")){
             // console.log("Yes");
-            
             var to_send = "Customer Name: " + email.name + "\n\n"
             + "Customer Phone Number: " + email.phno + "\n\n"
             + "Customer Email ID: " + email.email + "\n\n"
             + "Customer Delivery Address: " + email.addr + "\n\n"
-            + "Customer Order Details:\n\n\t" + email.order_details;
+            
+            if (title == "Received New Order")
+            to_send = to_send + "Customer Order Details:\n\n\t" + email.order_details;
+            else
+            to_send = to_send + "Customer Feedback Details:\n\n\t" + email.feedback;
 
             console.log(to_send);
 
@@ -70,7 +73,7 @@ var goMail = function (_data, title) {
 
 
 exports.onDataAdded = functions.firestore
-    .document('Users/{phno}/{active_orders}/{dateTime}')
+    .document('Users/{email}/{active_orders}/{dateTime}')
     .onWrite((snap, context) => {
     const createdData = snap.after.data();
     // console.log(createdData);
@@ -80,7 +83,7 @@ exports.onDataAdded = functions.firestore
     });
 
 exports.onFeedbackAdded = functions.firestore
-    .document('Users/{phno}/{feedback}/{dateTime}')
+    .document('Users/{email}/{feedback}/{dateTime}')
     .onWrite((snap, context) => {
     const createdFeedback = snap.after.data();
     // console.log(createdFeedback);
