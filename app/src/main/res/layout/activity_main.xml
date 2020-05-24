@@ -288,7 +288,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Book an appointment for AC repair and maintainance"
+                            android:text="Book an appointment for AC repair and maintenance"
                             android:textColor="@color/white"
                             android:fontFamily="@font/avenir"
                             android:textSize="20dp"

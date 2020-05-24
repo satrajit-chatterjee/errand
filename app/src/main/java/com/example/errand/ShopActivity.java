@@ -142,7 +142,6 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-        // TODO: Use toast messages to first check if all info is coming to this activity
         shop_button = (MaterialButton) findViewById(R.id.shop_submit);
         shop_button.setOnClickListener(new View.OnClickListener() {
             @Override
