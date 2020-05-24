@@ -20,12 +20,12 @@
         <androidx.core.widget.NestedScrollView
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             android:layout_width="match_parent"
-            android:layout_height="600dp">
+            android:layout_height="660dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 app:strokeWidth="1dp"
-                android:layout_height="550dp"
+                android:layout_height="wrap_content"
                 app:strokeColor="@color/stroke_color"
                 app:cardElevation="0dp">
 
@@ -161,6 +161,7 @@
                         android:layout_height="wrap_content"
                         android:elevation="@dimen/cardview_default_elevation"
                         android:theme="@style/TextInputLayoutAppearance"
+                        app:hintTextColor="@color/black"
                         android:hint="Write your order details here!"
                         android:paddingHorizontal="20sp"
                         app:boxCornerRadiusBottomEnd="5dp"
@@ -176,7 +177,7 @@
                             android:inputType="textMultiLine"
                             android:scrollbarStyle="insideInset"
                             android:scrollbars="vertical"
-                            android:layout_height="300dp" />
+                            android:layout_height="200dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
