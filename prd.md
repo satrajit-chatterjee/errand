@@ -60,4 +60,5 @@ Future:
 
 ## Critical Issues:
 > Enforce internet connection in splash activity before calling geocoder
+
 > Enforce location is on in devices before getting lat, long
