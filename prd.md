@@ -55,3 +55,15 @@ Future:
 > 4. AC Repair
 > 5. Plumbing services
 > 6. Cab services   
+
+# ISSUES:
+
+## Critical Issues:
+> 1. Enforce internet connection in splash activity before calling geocoder
+
+> 2. Enforce location is on in devices before getting lat, long
+
+## Medium Issues:
+> 1. [TODO] Incorporate forgot password
+> 2. [TODO] Authenticate email, phone number
+
