@@ -59,6 +59,11 @@ Future:
 # ISSUES:
 
 ## Critical Issues:
-> Enforce internet connection in splash activity before calling geocoder
+> 1. Enforce internet connection in splash activity before calling geocoder
 
-> Enforce location is on in devices before getting lat, long
+> 2. Enforce location is on in devices before getting lat, long
+
+## Medium Issues:
+> 1. [TODO] Incorporate forgot password
+> 2. [TODO] Authenticate email, phone number
+
