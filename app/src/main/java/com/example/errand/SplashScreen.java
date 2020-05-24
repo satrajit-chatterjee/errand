@@ -203,11 +203,6 @@ public class SplashScreen extends AppCompatActivity{
         final String postalcode = addresses.get(0).getPostalCode();
 
         final String getAddr = address + ", " + area + ", " + city + ", " + postalcode;;
-        Toast.makeText(getApplicationContext(),
-                getAddr + ", yolo",
-                Toast.LENGTH_LONG)
-                .show();
-
 
         if (currentUser != null){
 //            fetch user data from db by email
@@ -218,12 +213,17 @@ public class SplashScreen extends AppCompatActivity{
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            intent.putExtra("name", (String) document.get("name"));
-                            intent.putExtra("email", (String) document.get("email"));
-                            intent.putExtra("phno", (String) document.get("phno"));
+                            intent.putExtra("name", document.get("name").toString());
+                            intent.putExtra("email", document.get("email").toString());
+                            intent.putExtra("phno", document.get("phno").toString());
                             intent.putExtra("addr", getAddr);
+                            startActivity(intent);
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "nope doc",
+                                    Toast.LENGTH_LONG)
+                                    .show();
                             Log.d(TAG, "No such document");
                         }
                     }
@@ -232,7 +232,6 @@ public class SplashScreen extends AppCompatActivity{
                     }
                 }
             });
-            startActivity(intent);
         }
         else {
             btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -283,121 +282,6 @@ public class SplashScreen extends AppCompatActivity{
             });
         }
     }
-
-//    @SuppressLint("MissingPermission")
-//    private void getLastLocation(){
-//        if (checkPermissions()) {
-//            if (isLocationEnabled()) {
-//                mFusedLocationClient.getLastLocation().addOnSuccessListener(
-//                        new OnSuccessListener<Location>() {
-//                            @Override
-//                            public void onSuccess(Location location) {
-//                                if (location == null) {
-//                                    Toast.makeText(getApplicationContext(),
-//                                            "got null",
-//                                            Toast.LENGTH_SHORT)
-//                                            .show();
-//                                    requestNewLocationData();
-//                                } else if(location != null) {
-//                                    getLocationCoor(location.getLatitude(), location.getLongitude());
-//                                }
-//                            }
-//                        }
-//                );
-//            } else {
-//                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//                startActivity(intent);
-//                requestNewLocationData();
-//            }
-//        } else {
-//            requestPermissions();
-//        }
-//
-//    }
-//
-//    public void getLocationCoor(double lat, double lon){
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("latitude", lat + "");
-//        editor.putString("longitude", lon + "");
-//        editor.commit();
-//    }
-//
-//    @SuppressLint("MissingPermission")
-//    private void requestNewLocationData(){
-//        LocationRequest mLocationRequest = new LocationRequest();
-//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//        mLocationRequest.setInterval(0);
-//        mLocationRequest.setFastestInterval(0);
-//        mLocationRequest.setNumUpdates(1);
-//
-//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-//        mFusedLocationClient.requestLocationUpdates(
-//                mLocationRequest, mLocationCallback,
-//                Looper.myLooper()
-//        );
-//
-//    }
-//
-//    private LocationCallback mLocationCallback = new LocationCallback() {
-//        @Override
-//        public void onLocationResult(LocationResult locationResult) {
-//            Location mLastLocation = locationResult.getLastLocation();
-//            getLocationCoor(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-//        }
-//    };
-//
-//
-//    private boolean checkPermissions(){
-//        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-//                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-//    }
-//
-//    private void requestPermissions(){
-//        ActivityCompat.requestPermissions(
-//                this,
-//                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
-//                PERMISSION_ID
-//        );
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == PERMISSION_ID) {
-//            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//                // Granted. Start getting the location information
-//            }
-//        }
-//    }
-//
-//    private boolean isLocationEnabled(){
-//        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-//                LocationManager.NETWORK_PROVIDER
-//        );
-//    }
-
-//    private void OnGPS() {
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new  DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-//            }
-//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//        final AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
-//    }
-
-//    @SuppressLint("MissingPermission")
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -459,7 +343,7 @@ public class SplashScreen extends AppCompatActivity{
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             // Add new user to Firestore database
-                            db.collection("Users").document(intent.getStringExtra("phno")).get()
+                            db.collection("Users").document(intent.getStringExtra("email")).get()
                                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -469,7 +353,7 @@ public class SplashScreen extends AppCompatActivity{
                                                 user.put("name", intent.getStringExtra("name"));
                                                 user.put("email", intent.getStringExtra("email"));
                                                 user.put("addr", intent.getStringExtra("addr"));  // Account creation address to be cross-referenced with current address ALWAYS
-                                                db.collection("Users").document(intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                db.collection("Users").document(intent.getStringExtra("email")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
                                                         Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -489,7 +373,7 @@ public class SplashScreen extends AppCompatActivity{
                             startActivity(intent);
                         }
                         else {
-                            Toast.makeText(SplashScreen.this, "Authentication failed!",
+                            Toast.makeText(SplashScreen.this, "Authentication failed!\nPassword must be 8 characters long!",
                                     Toast.LENGTH_SHORT).show();
                             newAcc.dismiss();
                         }

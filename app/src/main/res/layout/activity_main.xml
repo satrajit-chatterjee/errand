@@ -59,13 +59,453 @@
             android:layout_height="wrap_content"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycle_view"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/main_intro_card"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/stroke_color"
+                app:cardElevation="0dp">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:background="@drawable/landing_bg"
+                    android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- Title, secondary and supporting text -->
+                        <TextView
+                            android:id="@+id/text_banner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_heading1"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/futura"
+                            android:textAppearance="?attr/textAppearanceHeadline3"
+                            />
+                        <TextView
+                            android:id="@+id/text_banner_desc1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/futura"
+                            android:text="@string/main_subtitle1"
+                            android:textAppearance="?attr/textAppearanceSubtitle1" />
+                        <TextView
+                            android:id="@+id/text_banner_desc2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/main_subtitle2"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/futura" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/shop_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            style="?attr/materialButtonOutlinedStyle"
+                            app:strokeWidth="1dp"
+                            app:cornerRadius="0dp"
+                            app:strokeColor="@color/white"
+                            android:text="@string/shop_now"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/futura"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:gravity="center"
+                            android:paddingTop="1dp"
+                            android:paddingBottom="1dp"
+                            android:paddingHorizontal="30dp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/text_pod"
+                        android:padding="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/futura"
+                        android:text="And Pay on Delivery!"
+                        android:textSize="18sp"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/new_service"
+                    android:layout_marginTop="405dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Stay in Style"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/avenir"
+                            android:textSize="30dp"
+                            android:layout_gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="With our newly launched Services"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/avenir"
+                            android:textSize="20dp"
+                            android:layout_gravity="center"/>
+
+                        <GridLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:columnCount="2"
+                            android:rowCount="2"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="horizontal">
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="180dp"
+                                android:layout_height="120dp"
+                                android:layout_margin="10dp"
+                                app:cardCornerRadius="7dp">
+
+                                <RelativeLayout
+
+                                    android:background="@drawable/beauty"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Parlour"
+                                        android:textSize="20dp"
+                                        android:layout_marginLeft="110dp"
+                                        android:layout_marginTop="10dp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/avenir"
+                                        android:textColor="@color/white"/>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/makeup"
+                                        android:padding="15dp"
+                                        android:layout_marginTop="25dp"/>
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="180dp"
+                                android:layout_height="120dp"
+                                android:layout_margin="10dp"
+                                app:cardCornerRadius="7dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:background="@drawable/barber"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/grooming"
+                                        android:padding="15dp"
+                                        android:layout_marginTop="25dp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Barbers"
+                                        android:textSize="20dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/avenir"
+                                        android:textColor="@color/white"/>
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </GridLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="405dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:layout_marginTop="630dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- Title, secondary and supporting text -->
+                        <TextView
+                            android:id="@+id/text_our_serv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delivery Services"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/avenir"
+                            android:textAppearance="?attr/textAppearanceHeadline4"
+                            android:layout_gravity="center"
+                            />
+                        <TextView
+                            android:id="@+id/text_serv_ran"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/avenir"
+                            android:text="Check out our range of instant services brought to you from a local vendor!"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:gravity="center_vertical|center_horizontal"/>
+                        <!--            <ViewFlipper-->
+                        <!--                android:id="@+id/service_flipper"-->
+                        <!--                android:layout_width="match_parent"-->
+                        <!--                android:layout_height="250dp"-->
+                        <!--                android:layout_marginTop="20dp">-->
+
+                        <!--            </ViewFlipper>-->
+
+
+
+                        <GridLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:columnCount="2"
+                            android:rowCount="2"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="horizontal">
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="160dp"
+                                android:layout_height="120dp"
+                                android:layout_margin="10dp"
+                                app:cardCornerRadius="7dp">
+
+                                <RelativeLayout
+                                    android:background="@drawable/groceries"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/grocery"
+                                        android:padding="15dp"
+                                        android:layout_marginTop="25dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Groceries"
+                                        android:textSize="20dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/avenir"
+                                        android:textColor="@color/white"
+                                        />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="160dp"
+                                android:layout_height="120dp"
+                                android:layout_margin="10dp"
+                                app:cardCornerRadius="7dp">
+
+                                <RelativeLayout
+                                    android:background="@drawable/veggies"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/fish"
+                                        android:paddingTop="10dp"
+                                        android:paddingRight="65dp"
+                                        android:layout_marginTop="55dp"/>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/harvest"
+                                        android:paddingTop="10dp"
+                                        android:paddingLeft="75dp"
+                                        android:layout_marginTop="30dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Fresh Meats &amp; Vegetables"
+                                        android:textSize="20dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/avenir"
+                                        android:textColor="@color/white"
+                                        />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="160dp"
+                                android:layout_height="120dp"
+                                android:layout_margin="10dp"
+                                app:cardCornerRadius="7dp">
+
+                                <RelativeLayout
+                                    android:background="@drawable/office"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/stationery"
+                                        android:padding="15dp"
+                                        android:layout_marginTop="25dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Office Supplies"
+                                        android:textSize="20dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/avenir"
+                                        android:textColor="@color/white"
+                                        />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="160dp"
+                                android:layout_height="120dp"
+                                android:layout_margin="10dp"
+                                app:cardCornerRadius="7dp">
+
+                                <RelativeLayout
+                                    android:background="@drawable/petsnmore"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/dog"
+                                        android:paddingTop="10dp"
+                                        android:paddingRight="65dp"
+                                        android:layout_marginTop="55dp"/>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/courier"
+                                        android:paddingTop="10dp"
+                                        android:paddingLeft="75dp"
+                                        android:layout_marginTop="30dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Pets, Parcels &amp; more"
+                                        android:textSize="20dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/avenir"
+                                        android:textColor="@color/white"
+                                        />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+                        </GridLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:layout_marginTop="1035dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="left"
+                        android:text="Contact Us:"
+                        android:textAppearance="?attr/textAppearanceHeadline5"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/avenir" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_gravity="center"
+                        android:text="9874972209 / 9836647325 / 033 4064 0074 \n\nleerrandcompany@gmail.com"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/avenir"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.appbar.AppBarLayout
