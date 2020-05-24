@@ -124,8 +124,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                         if (!task.getResult().exists()){
                             Map<String, Object> user = new HashMap<>();
                             user.put("phno", login_intent.getStringExtra("phno"));
-                            user.put("fname", login_intent.getStringExtra("fname"));
-                            user.put("lname", login_intent.getStringExtra("lname"));
+                            user.put("name", login_intent.getStringExtra("name"));
                             user.put("email", login_intent.getStringExtra("email"));
                             user.put("addr", login_intent.getStringExtra("addr"));
                             db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -158,8 +157,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                     Map<String, Object> new_order = new HashMap<>();
                     new_order.put("phno", login_intent.getStringExtra("phno"));
                     new_order.put("order_details", shopText.getText().toString());
-                    new_order.put("fname", login_intent.getStringExtra("fname"));
-                    new_order.put("lname", login_intent.getStringExtra("lname"));
+                    new_order.put("name", login_intent.getStringExtra("name"));
                     new_order.put("email", login_intent.getStringExtra("email"));
                     new_order.put("addr", login_intent.getStringExtra("addr"));
                     Date date = Calendar.getInstance().getTime();
@@ -237,8 +235,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_home){
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));
@@ -248,8 +245,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
 
         else if (item.getItemId() == R.id.menu_shop){
             Intent intent = new Intent(this, ShopActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));
@@ -259,8 +255,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
 
         else if (item.getItemId() == R.id.menu_feedback){
             Intent intent = new Intent(this, FeedbackActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));

@@ -117,8 +117,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
     @Override
     public void onButtonClick(int position) {
         Intent intent = new Intent(this, ShopActivity.class);
-        intent.putExtra("fname", login_intent.getStringExtra("fname"));
-        intent.putExtra("lname", login_intent.getStringExtra("lname"));
+        intent.putExtra("name", login_intent.getStringExtra("name"));
         intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));
         intent.putExtra("addr", login_intent.getStringExtra("addr"));
@@ -130,8 +129,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
 
         if (item.getItemId() == R.id.menu_home){
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));
@@ -141,8 +139,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
 
         else if (item.getItemId() == R.id.menu_shop){
             Intent intent = new Intent(this, ShopActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));
@@ -152,8 +149,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnSho
 
         else if (item.getItemId() == R.id.menu_feedback){
             Intent intent = new Intent(this, FeedbackActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));

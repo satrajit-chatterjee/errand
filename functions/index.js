@@ -35,7 +35,7 @@ var goMail = function (_data, title) {
         ("feedback" in email && title == "Received New Feedback")){
             // console.log("Yes");
             
-            var to_send = "Customer Name: " + email.fname + " " + email.lname + "\n\n"
+            var to_send = "Customer Name: " + email.name + "\n\n"
             + "Customer Phone Number: " + email.phno + "\n\n"
             + "Customer Email ID: " + email.email + "\n\n"
             + "Customer Delivery Address: " + email.addr + "\n\n"

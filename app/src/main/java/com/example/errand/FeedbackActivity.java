@@ -122,8 +122,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
                         if (!task.getResult().exists()){
                             Map<String, Object> user = new HashMap<>();
                             user.put("phno", login_intent.getStringExtra("phno"));
-                            user.put("fname", login_intent.getStringExtra("fname"));
-                            user.put("lname", login_intent.getStringExtra("lname"));
+                            user.put("name", login_intent.getStringExtra("name"));
                             user.put("email", login_intent.getStringExtra("email"));
                             user.put("addr", login_intent.getStringExtra("addr"));
                             db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -157,8 +156,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
                     Map<String, Object> new_feedback = new HashMap<>();
                     new_feedback.put("phno", login_intent.getStringExtra("phno"));
                     new_feedback.put("feedback", feedbackText.getText().toString());
-                    new_feedback.put("fname", login_intent.getStringExtra("fname"));
-                    new_feedback.put("lname", login_intent.getStringExtra("lname"));
+                    new_feedback.put("name", login_intent.getStringExtra("name"));
                     new_feedback.put("email", login_intent.getStringExtra("email"));
                     new_feedback.put("addr", login_intent.getStringExtra("addr"));
                     Date date = Calendar.getInstance().getTime();
@@ -234,8 +232,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_home){
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));
@@ -245,8 +242,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
 
         else if (item.getItemId() == R.id.menu_shop){
             Intent intent = new Intent(this, ShopActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));
@@ -256,8 +252,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
 
         else if (item.getItemId() == R.id.menu_feedback){
             Intent intent = new Intent(this, FeedbackActivity.class);
-            intent.putExtra("fname", login_intent.getStringExtra("fname"));
-            intent.putExtra("lname", login_intent.getStringExtra("lname"));
+            intent.putExtra("name", login_intent.getStringExtra("name"));
             intent.putExtra("email", login_intent.getStringExtra("email"));
             intent.putExtra("phno", login_intent.getStringExtra("phno"));
             intent.putExtra("addr", login_intent.getStringExtra("addr"));
