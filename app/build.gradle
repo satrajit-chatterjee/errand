@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.example.errand"
+        applicationId "com.errandcompany.errand"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1

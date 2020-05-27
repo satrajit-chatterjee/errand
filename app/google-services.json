@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:228803836691:android:0de5237d5d9b1ad314b8e6",
+        "mobilesdk_app_id": "1:228803836691:android:a4bec8a20f846aa914b8e6",
         "android_client_info": {
-          "package_name": "com.example.errand"
+          "package_name": "com.errandcompany.errand"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "228803836691-pjhnret4qtkfmsc2mqekmqq77o2sakem.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.errandcompany.errand",
+            "certificate_hash": "304a5e2dda479ea59d3d23a1b229f3095702ef7c"
+          }
+        },
         {
           "client_id": "228803836691-7skrlt185v39ca38fhlshl0k7rtkkdjp.apps.googleusercontent.com",
           "client_type": 3
