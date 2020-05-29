@@ -69,37 +69,37 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/tv_email"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_last_name">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/tv_email"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/tv_last_name">-->
 
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:theme="@style/EditTextHint"
-                    android:background="@drawable/text_bg"
-                    android:fontFamily="@font/avenir"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/white"
-                    android:textSize="30sp" />
+<!--                <EditText-->
+<!--                    android:id="@+id/email"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:theme="@style/EditTextHint"-->
+<!--                    android:background="@drawable/text_bg"-->
+<!--                    android:fontFamily="@font/avenir"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingTop="2dp"-->
+<!--                    android:paddingBottom="2dp"-->
+<!--                    android:hint="@string/email"-->
+<!--                    android:inputType="textEmailAddress"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="30sp" />-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/linlay_phnm"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_email">
+                android:layout_below="@+id/tv_last_name">
 
                 <EditText
                     android:id="@+id/ph_no"
@@ -118,48 +118,48 @@
                     android:textSize="30sp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linlay_add"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linlay_phnm">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linlay_add"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/linlay_phnm">-->
 
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:theme="@style/EditTextHint"
-                    android:background="@drawable/text_bg"
-                    android:fontFamily="@font/avenir"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:lines="3"
-                    android:textColor="@color/white"
-                    android:textSize="30sp"/>
+<!--&lt;!&ndash;                <EditText&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/password"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_marginTop="5dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:theme="@style/EditTextHint"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:background="@drawable/text_bg"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:fontFamily="@font/avenir"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:paddingTop="2dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:paddingBottom="2dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:hint="@string/password"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:inputType="textPassword"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:maxLines="1"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:lines="3"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textColor="@color/white"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textSize="30sp"/>&ndash;&gt;-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="15dp"
-                    android:fontFamily="@font/avenir"
-                    android:gravity="center"
-                    android:text="Forgot Email/Password?"
-                    android:textColor="@color/white"
-                    android:onClick="forgot_pass"/>
-            </LinearLayout>
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:layout_marginTop="15dp"-->
+<!--                    android:fontFamily="@font/avenir"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="Forgot Email/Password?"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:onClick="forgot_pass"/>-->
+<!--            </LinearLayout>-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linlay_add"
+                android:layout_below="@+id/linlay_phnm"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 style="?attr/materialButtonOutlinedStyle"

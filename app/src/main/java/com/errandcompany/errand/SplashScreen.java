@@ -14,7 +14,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,8 +25,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -37,11 +34,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -51,7 +47,6 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -65,10 +60,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class SplashScreen extends AppCompatActivity{
@@ -92,15 +85,11 @@ public class SplashScreen extends AppCompatActivity{
     private FirebaseFirestore db;
     public static final String MyPREFERENCES = "MyPrefs" ;
     LocationManager locationManager;
-    LocationListener locationListener;
-    String provider;
     String verificationId;
     PhoneAuthProvider.ForceResendingToken token;
     protected boolean gps_enabled,network_enabled;
 
 
-    public static double latitude;
-    public static double longitude;
 
 
     @SuppressLint("WrongConstant")
@@ -113,21 +102,7 @@ public class SplashScreen extends AppCompatActivity{
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if(haveNetworkConnection() && haveLocationConnection()){
-            if (ContextCompat.checkSelfPermission(
-                    SplashScreen.this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
-            } else {
-                getCurrentLocation();
-            }
-        }
-
-        if(!haveNetworkConnection() || !haveLocationConnection()){
-            Toast.makeText(getApplicationContext(),
-                    "Check if internet and location is enabled and restart the app!",
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
+        getCurrentLocation();
 
         newAcc = new Dialog(this);
 
@@ -188,106 +163,63 @@ public class SplashScreen extends AppCompatActivity{
     }
 
 
-    public void performSignUp(double lat, double lon){
-        double lati = lat;
-        double lono = lon;
+    public void performSignUp(double lati, double lono){
         final Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-        geocoder = new Geocoder(this, Locale.getDefault());
-        try {
-            addresses = geocoder.getFromLocation(lati, lono, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         final EditText first_name = (EditText) findViewById(R.id.tv_first_name);
         final EditText last_name = (EditText) findViewById(R.id.last_name);
-        final EditText email = (EditText) findViewById(R.id.email);
         final EditText phoneno = (EditText)findViewById(R.id.ph_no);
-        final EditText password = (EditText)findViewById(R.id.password);
         final Button btnSubmit = (Button) findViewById(R.id.button);
 
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+
+        geocoder = new Geocoder(SplashScreen.this, Locale.getDefault());
+        try {
+            addresses = geocoder.getFromLocation(lati, lono, 1);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         final String address = addresses.get(0).getAddressLine(0);
         final String area = addresses.get(0).getLocality();
         final String city = addresses.get(0).getAdminArea();
         final String country = addresses.get(0).getCountryName();
         final String postalcode = addresses.get(0).getPostalCode();
-
-        final String getAddr = address + ", " + area + ", " + city + ", " + postalcode;;
+        final String getAddr = address + ", " + area + ", " + city + ", " + postalcode;
 
         if (currentUser != null){
-//            fetch user data from db by email
-            DocumentReference docRef = db.collection("Users").document(currentUser.getEmail());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            intent.putExtra("name", document.get("name").toString());
-                            intent.putExtra("email", document.get("email").toString());
-                            intent.putExtra("phno", document.get("phno").toString());
-                            intent.putExtra("addr", getAddr);
-                            startActivity(intent);
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    "nope doc",
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                            Log.d(TAG, "No such document");
-                        }
-                    }
-                    else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                }
-            });
+            intent.putExtra("name", currentUser.getDisplayName());
+            intent.putExtra("phno", currentUser.getPhoneNumber());
+            intent.putExtra("addr", getAddr);
+            startActivity(intent);
+            finish();
         }
+
         else {
             btnSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final String getName = first_name.getText().toString() + " " + last_name.getText().toString();
-                    final String getEmail = email.getText().toString();
                     final String getPhNo = phoneno.getText().toString();
-                    final String getPass = password.getText().toString();
 
-                    if (first_name.getText().toString().isEmpty() || last_name.getText().toString().isEmpty() || password.getText().toString().isEmpty() ||
-                            phoneno.getText().toString().isEmpty() || email.getText().toString().isEmpty()) {
+                    if (first_name.getText().toString().isEmpty() || last_name.getText().toString().isEmpty() ||
+                            phoneno.getText().toString().isEmpty() || phoneno.getText().toString().length() != 10) {
                         Toast.makeText(getApplicationContext(),
-                                "Please enter all details",
+                                "Please check entered details",
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
                     else {
                         intent.putExtra("name", getName);
-                        intent.putExtra("email", getEmail);
                         intent.putExtra("phno", getPhNo);
                         intent.putExtra("addr", getAddr);
                         if (currentUser == null){
-                            firebaseAuth.signInWithEmailAndPassword(getEmail, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()){
-                                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                                        Toast.makeText(getApplicationContext(),
-                                                "Signed in as " + getName,
-                                                Toast.LENGTH_LONG)
-                                                .show();
-                                        startActivity(intent);
-                                    }
-                                    else {
-                                        ShowPopup(getEmail, getPass, getPhNo, intent);
-                                    }
-                                }
-                            });
+                            requestOTP(getPhNo, intent);
                         }
                         else Toast.makeText(getApplicationContext(),
-                                "Nope",
+                                "Error in fetching current user state",
                                 Toast.LENGTH_SHORT)
                                 .show();
 
@@ -321,13 +253,9 @@ public class SplashScreen extends AppCompatActivity{
             if (ni.getTypeName().equalsIgnoreCase("WIFI"))
                 if (ni.isConnected())
                     haveConnectedWifi = true;
-//                else
-//                    showAlert();
             if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
                 if (ni.isConnected())
                     haveConnectedMobile = true;
-//                else
-//                    showAlert();
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
@@ -343,24 +271,6 @@ public class SplashScreen extends AppCompatActivity{
             network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         }catch (Exception ex){}
         if(!gps_enabled && !network_enabled){
-//            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-//            dialog.setMessage(getResources().getString(R.string.gps_network_not_enabled));
-//            dialog.setPositiveButton(getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-//                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//                    Startup.this.startActivity(myIntent);
-//                }
-//            });
-//            dialog.setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() {
-//
-//                @Override
-//                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-//                    // TODO Auto-generated method stub
-//
-//                }
-//            });
-//            dialog.show();
             isConnected = false;
         }
         return isConnected;
@@ -389,98 +299,89 @@ public class SplashScreen extends AppCompatActivity{
     }
 
     private void getCurrentLocation(){
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(4000);
-        locationRequest.setFastestInterval(2000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        LocationServices.getFusedLocationProviderClient(SplashScreen.this)
-                .requestLocationUpdates(locationRequest, new LocationCallback(){
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        super.onLocationResult(locationResult);
-                        LocationServices.getFusedLocationProviderClient(SplashScreen.this)
-                                .removeLocationUpdates(this);
-                        if (locationResult != null && locationResult.getLocations().size() > 0){
-                            int latestlocationindex = locationResult.getLocations().size() - 1;
-                            double lat = locationResult.getLocations().get(latestlocationindex).getLatitude();
-                            double lon = locationResult.getLocations().get(latestlocationindex).getLongitude();
-                            performSignUp(lat, lon);
-                        }
-                    }
-                }, Looper.getMainLooper());
+        if(haveLocationConnection() && haveNetworkConnection()){
+            if (ContextCompat.checkSelfPermission(
+                    SplashScreen.this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+            }
+            else{
+                LocationRequest locationRequest = new LocationRequest();
+                locationRequest.setInterval(4000);
+                locationRequest.setFastestInterval(2000);
+                locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                LocationServices.getFusedLocationProviderClient(SplashScreen.this)
+                        .requestLocationUpdates(locationRequest, new LocationCallback(){
+                            @Override
+                            public void onLocationResult(LocationResult locationResult) {
+                                super.onLocationResult(locationResult);
+                                LocationServices.getFusedLocationProviderClient(SplashScreen.this)
+                                        .removeLocationUpdates(this);
+                                if (locationResult != null && locationResult.getLocations().size() > 0){
+                                    int latestlocationindex = locationResult.getLocations().size() - 1;
+                                    double lat = locationResult.getLocations().get(latestlocationindex).getLatitude();
+                                    double lon = locationResult.getLocations().get(latestlocationindex).getLongitude();
+                                    performSignUp(lat, lon);
+                                }
+                            }
+                        }, Looper.getMainLooper());
+            }
+
+        }
+        else if (!haveLocationConnection() || !haveNetworkConnection()){
+            Toast.makeText(getApplicationContext(),
+                    "Check if internet and location and try again",
+                    Toast.LENGTH_LONG)
+                    .show();
+            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 66);
+        }
 
     }
 
-    public void ShowPopup(String email, String pass, String phn, Intent i){
-        final String emailId = email;
-        final String password = pass;
-        final String phone = phn;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 66)
+            getCurrentLocation();
+    }
+
+    public void ShowPopup(Intent i, final Editable editable){
         final Intent intent = i;
-        TextView txtClose;
         MaterialButton confirm;
-        newAcc.setContentView(R.layout.new_acc_popup);
-        txtClose = (TextView) newAcc.findViewById(R.id.cancel_popup);
         confirm = (MaterialButton) newAcc.findViewById(R.id.confirm_acc);
-        Toast.makeText(SplashScreen.this, "Sending OTP",
-                Toast.LENGTH_SHORT).show();
-        requestOTP(phone);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, editable.toString());
+                firebaseAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(SplashScreen.this,
+                                    "Phone Number verified\nLogged in as " + intent.getStringExtra("name"),
+                                    Toast.LENGTH_LONG).show();
+                            startActivity(intent);
+                            finish();
+                        }
+                        else
+                            Toast.makeText(SplashScreen.this,
+                                    "Verification failed. Please recheck entered details",
+                                    Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void requestOTP(String phone, final Intent i) {
+        newAcc.setContentView(R.layout.new_acc_popup);
+        TextView txtClose = (TextView) newAcc.findViewById(R.id.cancel_popup);
         txtClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 newAcc.dismiss();
             }
         });
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.createUserWithEmailAndPassword(emailId, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            // Add new user to Firestore database
-                            db.collection("Users").document(intent.getStringExtra("email")).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if (!task.getResult().exists()){
-                                                Map<String, Object> user = new HashMap<>();
-                                                user.put("phno", intent.getStringExtra("phno"));
-                                                user.put("name", intent.getStringExtra("name"));
-                                                user.put("email", intent.getStringExtra("email"));
-                                                user.put("addr", intent.getStringExtra("addr"));  // Account creation address to be cross-referenced with current address ALWAYS
-                                                db.collection("Users").document(intent.getStringExtra("email")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w(TAG, "Error writing document", e);
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            Toast.makeText(SplashScreen.this, "Account Created!",
-                                    Toast.LENGTH_SHORT).show();
-                            startActivity(intent);
-                        }
-                        else {
-                            Toast.makeText(SplashScreen.this, "Authentication failed!\nPassword must be 8 characters long!",
-                                    Toast.LENGTH_SHORT).show();
-                            newAcc.dismiss();
-                        }
-                    }
-                });
-            }
-        });
-        newAcc.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        newAcc.show();
-    }
-
-    private void requestOTP(String phone) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber("+91" + phone, 60L, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             @Override
@@ -489,6 +390,8 @@ public class SplashScreen extends AppCompatActivity{
                 verificationId = s;
                 token = forceResendingToken;
                 OtpEditText otpEditText = (OtpEditText) newAcc.findViewById(R.id.verify_otp);
+                Toast.makeText(SplashScreen.this, "Sending OTP",
+                        Toast.LENGTH_SHORT).show();
                 Toast.makeText(SplashScreen.this, s, Toast.LENGTH_LONG).show();
                 otpEditText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -503,9 +406,14 @@ public class SplashScreen extends AppCompatActivity{
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-//                        Toast.makeText(SplashScreen.this, editable.toString(), Toast.LENGTH_LONG).show();
+                        if (editable.toString().length() == 6){
+                            ShowPopup(i, editable);
+
+                        }
                     }
                 });
+                newAcc.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                newAcc.show();
             }
 
             @Override
