@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -45,17 +46,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class FeedbackActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class FeedbackActivity extends AppCompatActivity{
 
     private static final String TAG = FeedbackActivity.class.getName();
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
     private TextInputEditText feedbackText;
-    private ImageButton nav_button;
     ViewFlipper adflipper;
     private Toolbar mToolbar;
-    NavigationView navView;
+    private BottomNavigationView bottomNavigationView;
     private Intent login_intent;
     private MaterialButton feedbackSubmit;
 
@@ -70,30 +68,51 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
         flipperAds();
         mToolbar = findViewById(R.id.topAppBar_feedback);
         setSupportActionBar(mToolbar);
-        nav_button = (ImageButton) findViewById(R.id.nav_button_feedback);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_feedback);
-        navView = findViewById(R.id.nav_view_feedback);
-        navView.setNavigationItemSelectedListener(this);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.setDrawerIndicatorEnabled(true);
-        mToggle.syncState();
-
         feedbackText = (TextInputEditText) findViewById(R.id.feedback_text);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view_feedback);
 
-        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         db = FirebaseFirestore.getInstance();
 
-        nav_button.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                if (!mDrawerLayout.isDrawerOpen(GravityCompat.END)){
-                    mDrawerLayout.openDrawer(GravityCompat.END);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.menu_home){
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                    finish();
                 }
+
+                else if (item.getItemId() == R.id.menu_shop){
+                    Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                    finish();
+                }
+
+                else if (item.getItemId() == R.id.menu_feedback){
+                    Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                    finish();
+                }
+
+
+                return true;
             }
         });
+
 
         feedbackText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -115,7 +134,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
 
 
 //         Add new user to Firestore database
-        db.collection("Users").document(login_intent.getStringExtra("email")).get()
+        db.collection("Users").document(login_intent.getStringExtra("phno")).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -125,7 +144,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
                             user.put("name", login_intent.getStringExtra("name"));
                             user.put("email", login_intent.getStringExtra("email"));
                             user.put("addr", login_intent.getStringExtra("addr"));
-                            db.collection("Users").document(login_intent.getStringExtra("email")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -163,7 +182,7 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
                     String dateTime = dateFormat.format(date);
 
-                    db.collection("Users").document(login_intent.getStringExtra("email")).collection("feedback")
+                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("feedback")
                             .document(dateTime)
                             .set(new_feedback)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -260,38 +279,4 @@ public class FeedbackActivity extends AppCompatActivity implements NavigationVie
         return false;
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_home){
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-        }
-
-        else if (item.getItemId() == R.id.menu_shop){
-            Intent intent = new Intent(this, ShopActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-        }
-
-        else if (item.getItemId() == R.id.menu_feedback){
-            Intent intent = new Intent(this, FeedbackActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-
-        }
-        return true;
-    }
 }

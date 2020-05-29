@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout_shop"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    tools:openDrawer="start"
-    android:focusableInTouchMode="true">
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="0dp"
@@ -200,14 +192,6 @@
                         app:strokeColor="@color/black"
                         app:strokeWidth="1dp" />
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_marginTop="300dp">-->
-
-
-<!--                    </LinearLayout>-->
-
                 </LinearLayout>
 
 
@@ -250,21 +234,6 @@
                     app:layout_collapseMode="pin"
                     app:menu="@menu/menu_main">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageButton
-                            android:id="@+id/nav_button_shop"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/nav_bar"
-                            android:layout_marginRight="15dp"
-                            android:layout_alignParentRight="true"/>
-
-                    </RelativeLayout>
-
                 </androidx.appcompat.widget.Toolbar>
 
 
@@ -272,23 +241,19 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view_shop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/menu_main"
+            android:layout_gravity="bottom"
+            app:itemTextColor="@color/black"
+            app:itemHorizontalTranslationEnabled="true"
+            app:itemTextAppearance="@style/nav_drawer_style"
+            app:itemIconTint="@color/mainTheme">
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:menu="@menu/menu_main"
-        android:theme="@style/ThemeOverlay.AppCompat.navTheme"
-        app:itemTextAppearance="@style/nav_drawer_style"
-        app:itemIconPadding="100dp"
-        android:paddingTop="100dp"
-        app:itemIconTint="@color/mainTheme"
-        android:layout_marginTop="84dp"
-        android:layout_gravity="right"
-        android:layoutDirection="rtl">
-    </com.google.android.material.navigation.NavigationView>
-
-</androidx.drawerlayout.widget.DrawerLayout>

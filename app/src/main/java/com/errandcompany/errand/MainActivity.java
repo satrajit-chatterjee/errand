@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -26,14 +27,11 @@ import android.widget.ViewFlipper;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity{
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
-    private ImageButton nav_button;
+    private BottomNavigationView bottomNavigationView;
     ViewFlipper adflipper;
     private Toolbar mToolbar;
-    NavigationView navView;
     private Intent login_intent;
     private MaterialButton shopButton;
     private MaterialButton acRepair;
@@ -47,27 +45,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         flipperAds();
         mToolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(mToolbar);
-        nav_button = (ImageButton) findViewById(R.id.nav_button);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         shopButton = (MaterialButton) findViewById(R.id.shop_button);
         acRepair = (MaterialButton) findViewById(R.id.ac_repair);
-        navView = findViewById(R.id.nav_view);
-        navView.setNavigationItemSelectedListener(this);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.setDrawerIndicatorEnabled(true);
-        mToggle.syncState();
-        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view_main);
 
-        nav_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mDrawerLayout.isDrawerOpen(GravityCompat.END)){
-                    mDrawerLayout.openDrawer(GravityCompat.END);
-                }
-            }
-        });
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         final Intent intent = new Intent(this, ShopActivity.class);
 
@@ -94,6 +76,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.menu_home){
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                    finish();
+                }
+
+                else if (item.getItemId() == R.id.menu_shop){
+                    Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                }
+
+                else if (item.getItemId() == R.id.menu_feedback){
+                    Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                }
+
+
+                return true;
+            }
+        });
 
     }
 
@@ -157,12 +174,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void feedback_submit_button(View view){
-        final Intent intent = new Intent(this, FeedbackActivity.class);
-//        intent.putExtra("name", login_intent.getStringExtra("name"));
-//        intent.putExtra("email", login_intent.getStringExtra("email"));
-//        intent.putExtra("phno", login_intent.getStringExtra("phno"));
-//        intent.putExtra("addr", login_intent.getStringExtra("addr"));
-//        startActivity(intent);
         rateApp();
     }
 
@@ -208,41 +219,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return false;
     }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.menu_home){
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-        }
-
-        else if (item.getItemId() == R.id.menu_shop){
-            Intent intent = new Intent(this, ShopActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-        }
-
-        else if (item.getItemId() == R.id.menu_feedback){
-            Intent intent = new Intent(this, FeedbackActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-        }
-        return true;
-    }
-
 
 }

@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -43,17 +44,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ShopActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ShopActivity extends AppCompatActivity{
 
     private static final String TAG = ShopActivity.class.getName();
-
-    private DrawerLayout mDrawerLayout;
+    private BottomNavigationView bottomNavigationView;
     private TextInputEditText shopText;
-    private ActionBarDrawerToggle mToggle;
-    private ImageButton nav_button;
     ViewFlipper adflipper;
     private Toolbar mToolbar;
-    NavigationView navView;
+//    NavigationView navView;
     private MaterialButton shop_button;
     private Intent login_intent;
     private FirebaseFirestore db;
@@ -68,28 +66,50 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         flipperAds();
         mToolbar = findViewById(R.id.topAppBar_shop);
         setSupportActionBar(mToolbar);
-        nav_button = (ImageButton) findViewById(R.id.nav_button_shop);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_shop);
-        navView = findViewById(R.id.nav_view);
 
         shopText = (TextInputEditText) findViewById(R.id.shop_text);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view_shop);
 
-        navView.setNavigationItemSelectedListener(this);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.setDrawerIndicatorEnabled(true);
-        mToggle.syncState();
-        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
-        nav_button.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                if (!mDrawerLayout.isDrawerOpen(GravityCompat.END)){
-                    mDrawerLayout.openDrawer(GravityCompat.END);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.menu_home){
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                    finish();
                 }
+
+                else if (item.getItemId() == R.id.menu_shop){
+                    Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                    finish();
+                }
+
+                else if (item.getItemId() == R.id.menu_feedback){
+                    Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
+                    intent.putExtra("name", login_intent.getStringExtra("name"));
+                    intent.putExtra("email", login_intent.getStringExtra("email"));
+                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
+                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
+                    startActivity(intent);
+                    finish();
+                }
+
+
+                return true;
             }
         });
+
 
 
         shopText.setOnTouchListener(new View.OnTouchListener() {
@@ -122,7 +142,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                             user.put("name", login_intent.getStringExtra("name"));
                             user.put("email", login_intent.getStringExtra("email"));
                             user.put("addr", login_intent.getStringExtra("addr"));
-                            db.collection("Users").document(login_intent.getStringExtra("email")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -158,7 +178,7 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
                     String dateTime = dateFormat.format(date);
 
-                    db.collection("Users").document(login_intent.getStringExtra("email")).collection("active_orders")
+                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
                             .document(dateTime)
                             .set(new_order)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -225,38 +245,4 @@ public class ShopActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_home){
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-        }
-
-        else if (item.getItemId() == R.id.menu_shop){
-            Intent intent = new Intent(this, ShopActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-        }
-
-        else if (item.getItemId() == R.id.menu_feedback){
-            Intent intent = new Intent(this, FeedbackActivity.class);
-            intent.putExtra("name", login_intent.getStringExtra("name"));
-            intent.putExtra("email", login_intent.getStringExtra("email"));
-            intent.putExtra("phno", login_intent.getStringExtra("phno"));
-            intent.putExtra("addr", login_intent.getStringExtra("addr"));
-            startActivity(intent);
-            mDrawerLayout.closeDrawer(Gravity.RIGHT, false);
-
-        }
-        return true;
-    }
 }
