@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
@@ -63,11 +64,15 @@ public class ShopActivity extends AppCompatActivity{
 
         db = FirebaseFirestore.getInstance();
 
-        flipperAds();
+//        AppBarLayout.LayoutParams p = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
+//        p.setScrollFlags(0);
+//        mToolbar.setLayoutParams(p);
+
+//        flipperAds();
         mToolbar = findViewById(R.id.topAppBar_shop);
         setSupportActionBar(mToolbar);
 
-        shopText = (TextInputEditText) findViewById(R.id.shop_text);
+//        shopText = (TextInputEditText) findViewById(R.id.shop_text);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view_shop);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -112,21 +117,21 @@ public class ShopActivity extends AppCompatActivity{
 
 
 
-        shopText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                view.getParent().requestDisallowInterceptTouchEvent(true);
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
-                    case MotionEvent.ACTION_UP:
-                        view.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-
-                return false;
-            }
-
-        });
+//        shopText.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                view.getParent().requestDisallowInterceptTouchEvent(true);
+//                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
+//                    case MotionEvent.ACTION_UP:
+//                        view.getParent().requestDisallowInterceptTouchEvent(false);
+//                        break;
+//                }
+//
+//                return false;
+//            }
+//
+//        });
 
 
         login_intent = getIntent();
@@ -157,67 +162,67 @@ public class ShopActivity extends AppCompatActivity{
                     }
                 });
 
-        shop_button = (MaterialButton) findViewById(R.id.shop_submit);
-        shop_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (shopText.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter your order details",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-                else {
-                    Map<String, Object> new_order = new HashMap<>();
-                    new_order.put("phno", login_intent.getStringExtra("phno"));
-                    new_order.put("order_details", shopText.getText().toString());
-                    new_order.put("name", login_intent.getStringExtra("name"));
-                    new_order.put("email", login_intent.getStringExtra("email"));
-                    new_order.put("addr", login_intent.getStringExtra("addr"));
-                    Date date = Calendar.getInstance().getTime();
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                    String dateTime = dateFormat.format(date);
-
-                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
-                            .document(dateTime)
-                            .set(new_order)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    Toast.makeText(getApplicationContext(),
-                                            "Order Success!",
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing document", e);
-                                    Toast.makeText(getApplicationContext(),
-                                            "There was an error submitting your order.",
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            });
-
-                    shopText.getText().clear();
-
-
-                }
-            }
-        });
+//        shop_button = (MaterialButton) findViewById(R.id.shop_submit);
+//        shop_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (shopText.getText().toString().isEmpty()) {
+//                    Toast.makeText(getApplicationContext(),
+//                            "Please enter your order details",
+//                            Toast.LENGTH_LONG)
+//                            .show();
+//                }
+//                else {
+//                    Map<String, Object> new_order = new HashMap<>();
+//                    new_order.put("phno", login_intent.getStringExtra("phno"));
+//                    new_order.put("order_details", shopText.getText().toString());
+//                    new_order.put("name", login_intent.getStringExtra("name"));
+//                    new_order.put("email", login_intent.getStringExtra("email"));
+//                    new_order.put("addr", login_intent.getStringExtra("addr"));
+//                    Date date = Calendar.getInstance().getTime();
+//                    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+//                    String dateTime = dateFormat.format(date);
+//
+//                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
+//                            .document(dateTime)
+//                            .set(new_order)
+//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void aVoid) {
+//                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+//                                    Toast.makeText(getApplicationContext(),
+//                                            "Order Success!",
+//                                            Toast.LENGTH_LONG)
+//                                            .show();
+//                                }
+//                            })
+//                            .addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    Log.w(TAG, "Error writing document", e);
+//                                    Toast.makeText(getApplicationContext(),
+//                                            "There was an error submitting your order.",
+//                                            Toast.LENGTH_LONG)
+//                                            .show();
+//                                }
+//                            });
+//
+//                    shopText.getText().clear();
+//
+//
+//                }
+//            }
+//        });
 
     }
 
-    public void flipperAds(){
-        adflipper = findViewById(R.id.ad_flipper_shop);
-        adflipper.setFlipInterval(2000);  // 2 sec
-        adflipper.setInAnimation(this, android.R.anim.slide_in_left);
-        adflipper.setOutAnimation(this, android.R.anim.slide_out_right);
-        adflipper.startFlipping();
-    }
+//    public void flipperAds(){
+//        adflipper = findViewById(R.id.ad_flipper_shop);
+//        adflipper.setFlipInterval(2000);  // 2 sec
+//        adflipper.setInAnimation(this, android.R.anim.slide_in_left);
+//        adflipper.setOutAnimation(this, android.R.anim.slide_out_right);
+//        adflipper.startFlipping();
+//    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {

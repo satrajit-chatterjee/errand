@@ -392,7 +392,6 @@ public class SplashScreen extends AppCompatActivity{
                 OtpEditText otpEditText = (OtpEditText) newAcc.findViewById(R.id.verify_otp);
                 Toast.makeText(SplashScreen.this, "Sending OTP",
                         Toast.LENGTH_SHORT).show();
-                Toast.makeText(SplashScreen.this, s, Toast.LENGTH_LONG).show();
                 otpEditText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

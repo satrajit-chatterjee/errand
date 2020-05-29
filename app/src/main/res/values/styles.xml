@@ -17,10 +17,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="Theme.MaterialComponents.Light" />
 
-    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/errand_bg</item>
-    </style>
-
     <style name="toolbar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorOnBackground">@color/white</item>
     </style>
