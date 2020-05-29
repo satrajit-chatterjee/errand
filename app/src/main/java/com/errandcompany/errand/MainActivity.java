@@ -1,7 +1,10 @@
 package com.errandcompany.errand;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import java.util.Objects;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity{
     private BottomNavigationView bottomNavigationView;
     ViewFlipper adflipper;
     private Toolbar mToolbar;
+    Dialog shop_popup;
     private Intent login_intent;
     private MaterialButton shopButton;
     private MaterialButton acRepair;
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity{
         shopButton = (MaterialButton) findViewById(R.id.shop_button);
         acRepair = (MaterialButton) findViewById(R.id.ac_repair);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view_main);
+        shop_popup = new Dialog(this);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
@@ -95,7 +101,17 @@ public class MainActivity extends AppCompatActivity{
                     intent.putExtra("email", login_intent.getStringExtra("email"));
                     intent.putExtra("phno", login_intent.getStringExtra("phno"));
                     intent.putExtra("addr", login_intent.getStringExtra("addr"));
-                    startActivity(intent);
+                    shop_popup.setContentView(R.layout.shop_popup);
+                    TextView closeShop = (TextView) shop_popup.findViewById(R.id.cancel_shop_popup);
+                    closeShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            shop_popup.dismiss();
+                        }
+                    });
+                    shop_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    shop_popup.show();
+//                    startActivity(intent);
                 }
 
                 else if (item.getItemId() == R.id.menu_feedback){
