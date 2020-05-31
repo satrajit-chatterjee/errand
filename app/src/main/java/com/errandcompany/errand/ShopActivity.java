@@ -3,16 +3,24 @@ package com.errandcompany.errand;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -32,6 +40,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -49,11 +58,11 @@ public class ShopActivity extends AppCompatActivity{
 
     private static final String TAG = ShopActivity.class.getName();
     private BottomNavigationView bottomNavigationView;
-    private TextInputEditText shopText;
-    ViewFlipper adflipper;
     private Toolbar mToolbar;
-//    NavigationView navView;
-    private MaterialButton shop_button;
+    LinearLayout itemsLayout;
+    FloatingActionButton floatingActionButton;
+    EditText initEditText;
+    //    NavigationView navView;
     private Intent login_intent;
     private FirebaseFirestore db;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -62,7 +71,11 @@ public class ShopActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shop_activity);
 
+
         db = FirebaseFirestore.getInstance();
+        initEditText  = (EditText) findViewById(R.id.init_item);
+        itemsLayout = (LinearLayout) findViewById(R.id.shop_items_layout);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.shop_fab);
 
 //        AppBarLayout.LayoutParams p = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
 //        p.setScrollFlags(0);
@@ -115,6 +128,76 @@ public class ShopActivity extends AppCompatActivity{
             }
         });
 
+        initEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() != 0){
+                    TextView counter = (TextView) findViewById(R.id.init_count);
+                    if (Integer.parseInt(counter.getText().toString()) == 0){
+                        counter.setText(Integer.toString(Integer.parseInt(counter.getText().toString()) + 1));
+                    }
+                }
+            }
+        });
+
+        final int[] itemCountNum = {1};
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+                linearLayout.setBackgroundResource(R.drawable.lin_lay_border);
+                linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                // items count TextView
+                itemCountNum[0]++;
+                Typeface font = Typeface.createFromAsset(getAssets(), "font/avenir.otf");
+                TextView itemCount = new TextView(getApplicationContext());
+                LinearLayout.LayoutParams itemCountLayoutParams = (LinearLayout.LayoutParams) itemCount.getLayoutParams();
+                itemCountLayoutParams.height = getResources().getDimensionPixelSize(R.dimen.count_text_view_height);
+                itemCountLayoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                itemCountLayoutParams.setMargins(5, 0, 0, 0);
+                itemCount.setLayoutParams(itemCountLayoutParams);
+                itemCount.setText(Integer.toString(itemCountNum[0]));
+                itemCount.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                itemCount.setTypeface(font);
+
+                // vertical line
+                View lineView = new View(getApplicationContext());
+                LinearLayout.LayoutParams lineParams = (LinearLayout.LayoutParams) lineView.getLayoutParams();
+                lineParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
+                lineParams.width = getResources().getDimensionPixelSize(R.dimen.line_width);
+                lineParams.setMargins(10, 0, 0, 0);
+                lineView.setLayoutParams(lineParams);
+                lineView.setBackgroundColor(getResources().getColor(R.color.black));
+
+                // EditText for items
+                EditText itemEditText = new EditText(getApplicationContext());
+                Typeface itemEditFont = Typeface.createFromAsset(getAssets(), "font/avenir.otf");
+                LinearLayout.LayoutParams itemEditTextLayout = (LinearLayout.LayoutParams) itemEditText.getLayoutParams();
+                itemEditTextLayout.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                itemEditTextLayout.width = getResources().getDimensionPixelSize(R.dimen.item_edit_text);
+                itemEditTextLayout.setMargins(15, 0, 0, 0);
+                itemEditText.setTypeface(itemEditFont);
+                itemEditText.setHint("Add item name");
+                itemEditText.setTextColor(getResources().getColor(R.color.black));
+                itemEditText.setMaxLines(1);
+
+                // TextView for '-' sign
+
+
+            }
+        });
 
 
 //        shopText.setOnTouchListener(new View.OnTouchListener() {
@@ -135,6 +218,8 @@ public class ShopActivity extends AppCompatActivity{
 
 
         login_intent = getIntent();
+
+
 
         // Add new user to Firestore database
         db.collection("Users").document(login_intent.getStringExtra("phno")).get()
@@ -248,6 +333,24 @@ public class ShopActivity extends AppCompatActivity{
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return false;
+    }
+
+    public void init_remove(View view){
+        TextView counter = (TextView) findViewById(R.id.init_count);
+        if (Integer.parseInt(counter.getText().toString()) > 0)
+            counter.setText(Integer.toString(Integer.parseInt(counter.getText().toString()) - 1));
+
+        if (Integer.parseInt(counter.getText().toString()) == 0){
+            initEditText.getText().clear();
+        }
+
+    }
+
+    public void init_add(View view){
+        TextView counter = (TextView) findViewById(R.id.init_count);
+        counter.setText(Integer.toString(Integer.parseInt(counter.getText().toString()) + 1));
+
+
     }
 
 }
