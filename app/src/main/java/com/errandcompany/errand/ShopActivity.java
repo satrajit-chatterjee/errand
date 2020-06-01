@@ -30,6 +30,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -45,6 +46,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -161,40 +164,80 @@ public class ShopActivity extends AppCompatActivity{
 
                 // items count TextView
                 itemCountNum[0]++;
-                Typeface font = Typeface.createFromAsset(getAssets(), "font/avenir.otf");
+                Typeface font = ResourcesCompat.getFont(getApplicationContext(), R.font.avenir);
                 TextView itemCount = new TextView(getApplicationContext());
-                LinearLayout.LayoutParams itemCountLayoutParams = (LinearLayout.LayoutParams) itemCount.getLayoutParams();
-                itemCountLayoutParams.height = getResources().getDimensionPixelSize(R.dimen.count_text_view_height);
-                itemCountLayoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                itemCountLayoutParams.setMargins(5, 0, 0, 0);
+                LinearLayout.LayoutParams itemCountLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                        getResources().getDimensionPixelSize(R.dimen.count_text_view_height));
+                itemCountLayoutParams.setMargins(10, 0, 0, 0);
                 itemCount.setLayoutParams(itemCountLayoutParams);
                 itemCount.setText(Integer.toString(itemCountNum[0]));
                 itemCount.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 itemCount.setTypeface(font);
+                linearLayout.addView(itemCount);
 
                 // vertical line
                 View lineView = new View(getApplicationContext());
-                LinearLayout.LayoutParams lineParams = (LinearLayout.LayoutParams) lineView.getLayoutParams();
-                lineParams.height = LinearLayout.LayoutParams.MATCH_PARENT;
-                lineParams.width = getResources().getDimensionPixelSize(R.dimen.line_width);
-                lineParams.setMargins(10, 0, 0, 0);
+                LinearLayout.LayoutParams lineParams = new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.line_width),
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                lineParams.setMargins(32, 0, 0, 0);
                 lineView.setLayoutParams(lineParams);
                 lineView.setBackgroundColor(getResources().getColor(R.color.black));
+                linearLayout.addView(lineView);
 
                 // EditText for items
                 EditText itemEditText = new EditText(getApplicationContext());
-                Typeface itemEditFont = Typeface.createFromAsset(getAssets(), "font/avenir.otf");
-                LinearLayout.LayoutParams itemEditTextLayout = (LinearLayout.LayoutParams) itemEditText.getLayoutParams();
-                itemEditTextLayout.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                itemEditTextLayout.width = getResources().getDimensionPixelSize(R.dimen.item_edit_text);
-                itemEditTextLayout.setMargins(15, 0, 0, 0);
+                Typeface itemEditFont = ResourcesCompat.getFont(getApplicationContext(), R.font.avenir);
+                LinearLayout.LayoutParams itemEditTextLayout = (LinearLayout.LayoutParams)  initEditText.getLayoutParams();
+//                LinearLayout.LayoutParams itemEditTextLayout = new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.item_edit_text),
+//                        LinearLayout.LayoutParams.WRAP_CONTENT);
+//                itemEditTextLayout.setMargins(25, 50, 0, 0);
+                itemEditText.setLayoutParams(itemEditTextLayout);
                 itemEditText.setTypeface(itemEditFont);
                 itemEditText.setHint("Add item name");
                 itemEditText.setTextColor(getResources().getColor(R.color.black));
                 itemEditText.setMaxLines(1);
+                linearLayout.addView(itemEditText);
 
                 // TextView for '-' sign
+                TextView removeSign = new TextView(getApplicationContext());
+                TextView subtract = (TextView) findViewById(R.id.init_subtract);
+                Typeface signs = ResourcesCompat.getFont(getApplicationContext(), R.font.avenir_bold);
+                LinearLayout.LayoutParams removeSignLayout = (LinearLayout.LayoutParams) subtract.getLayoutParams();
+//                removeSignLayout.setMargins(10, 0, 0, 0);
+                removeSign.setLayoutParams(removeSignLayout);
+                removeSign.setTypeface(signs, Typeface.BOLD);
+                removeSign.setText("-");
+                removeSign.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+                removeSign.setTextColor(getResources().getColor(R.color.signs));
+                linearLayout.addView(removeSign);
 
+                // TextView for countKeeper
+                TextView countKeeper = new TextView(getApplicationContext());
+                TextView counter_ = (TextView) findViewById(R.id.init_count);
+                LinearLayout.LayoutParams countKeeperLayout = (LinearLayout.LayoutParams) counter_.getLayoutParams();
+//                countKeeperLayout.setMargins(10, 10, 0, 0);
+                countKeeper.setLayoutParams(countKeeperLayout);
+                countKeeper.setTypeface(signs, Typeface.BOLD);
+                countKeeper.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                countKeeper.setTextColor(getResources().getColor(R.color.signs));
+                countKeeper.setText("1");
+                linearLayout.addView(countKeeper);
+
+                // TextView for '+' sign
+                TextView addSign = new TextView(getApplicationContext());
+                TextView initAdd = (TextView) findViewById(R.id.init_add);
+                LinearLayout.LayoutParams addSignLayout = (LinearLayout.LayoutParams) initAdd.getLayoutParams();
+//                addSignLayout.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//                addSignLayout.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+//                addSignLayout.setMargins(5, 0, 0, 0);
+                addSign.setLayoutParams(addSignLayout);
+                addSign.setText("+");
+                addSign.setTypeface(signs, Typeface.BOLD);
+                addSign.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 23);
+                addSign.setTextColor(getResources().getColor(R.color.signs));
+                linearLayout.addView(addSign);
+
+                itemsLayout.addView(linearLayout);
 
             }
         });

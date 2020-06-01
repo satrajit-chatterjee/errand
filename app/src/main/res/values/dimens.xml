@@ -1,6 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="count_text_view_height">50dp</dimen>
+    <dimen name="count_text_view_height">20dp</dimen>
     <dimen name="line_width">1dp</dimen>
-    <dimen name="item_edit_text">200dp</dimen>
+    <dimen name="item_edit_text">500dp</dimen>
 </resources>
