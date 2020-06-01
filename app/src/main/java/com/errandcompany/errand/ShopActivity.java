@@ -51,6 +51,7 @@ import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -153,22 +154,27 @@ public class ShopActivity extends AppCompatActivity{
             }
         });
 
+        ArrayList<TextView> remover = new ArrayList<TextView>();
+
         final int[] itemCountNum = {1};
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                itemCountNum[0]++;
+                final int linid = LinearLayout.generateViewId();
+                final int ckid = LinearLayout.generateViewId();
                 LinearLayout linearLayout = new LinearLayout(getApplicationContext());
                 linearLayout.setBackgroundResource(R.drawable.lin_lay_border);
                 linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
+                linearLayout.setId(linid);
 
                 // items count TextView
-                itemCountNum[0]++;
                 Typeface font = ResourcesCompat.getFont(getApplicationContext(), R.font.avenir);
-                TextView itemCount = new TextView(getApplicationContext());
-                LinearLayout.LayoutParams itemCountLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        getResources().getDimensionPixelSize(R.dimen.count_text_view_height));
-                itemCountLayoutParams.setMargins(10, 0, 0, 0);
+                final TextView itemCount = new TextView(getApplicationContext());
+                TextView parentItemCount = (TextView) findViewById(R.id.item_count_parent);
+                LinearLayout.LayoutParams itemCountLayoutParams = (LinearLayout.LayoutParams)  parentItemCount.getLayoutParams();
+//                itemCountLayoutParams.setMargins(10, 0, 0, 0);
                 itemCount.setLayoutParams(itemCountLayoutParams);
                 itemCount.setText(Integer.toString(itemCountNum[0]));
                 itemCount.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
@@ -188,57 +194,78 @@ public class ShopActivity extends AppCompatActivity{
                 EditText itemEditText = new EditText(getApplicationContext());
                 Typeface itemEditFont = ResourcesCompat.getFont(getApplicationContext(), R.font.avenir);
                 LinearLayout.LayoutParams itemEditTextLayout = (LinearLayout.LayoutParams)  initEditText.getLayoutParams();
-//                LinearLayout.LayoutParams itemEditTextLayout = new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.item_edit_text),
-//                        LinearLayout.LayoutParams.WRAP_CONTENT);
-//                itemEditTextLayout.setMargins(25, 50, 0, 0);
                 itemEditText.setLayoutParams(itemEditTextLayout);
                 itemEditText.setTypeface(itemEditFont);
                 itemEditText.setHint("Add item name");
                 itemEditText.setTextColor(getResources().getColor(R.color.black));
                 itemEditText.setMaxLines(1);
+                int edtxtid = LinearLayout.generateViewId();
+                itemEditText.setId(edtxtid);
                 linearLayout.addView(itemEditText);
+
+                final int[] countNum = {1};
 
                 // TextView for '-' sign
                 TextView removeSign = new TextView(getApplicationContext());
                 TextView subtract = (TextView) findViewById(R.id.init_subtract);
                 Typeface signs = ResourcesCompat.getFont(getApplicationContext(), R.font.avenir_bold);
                 LinearLayout.LayoutParams removeSignLayout = (LinearLayout.LayoutParams) subtract.getLayoutParams();
-//                removeSignLayout.setMargins(10, 0, 0, 0);
                 removeSign.setLayoutParams(removeSignLayout);
                 removeSign.setTypeface(signs, Typeface.BOLD);
                 removeSign.setText("-");
                 removeSign.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
                 removeSign.setTextColor(getResources().getColor(R.color.signs));
+                removeSign.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (countNum[0] > 0){
+                            --countNum[0];
+//                            LinearLayout linlay = (LinearLayout) v;
+                            TextView tv = (TextView) itemsLayout.findViewById(ckid);
+                            tv.setText(Integer.toString(countNum[0]));
+//                            Toast.makeText(getApplicationContext(), Integer.toString(countNum[0]), Toast.LENGTH_LONG).show();
+                        }
+                        if (countNum[0] == 0) {
+                            LinearLayout linlay = (LinearLayout) itemsLayout.findViewById(linid);
+                            itemsLayout.removeView(linlay);
+                        }
+                    }
+                });
                 linearLayout.addView(removeSign);
 
                 // TextView for countKeeper
                 TextView countKeeper = new TextView(getApplicationContext());
                 TextView counter_ = (TextView) findViewById(R.id.init_count);
                 LinearLayout.LayoutParams countKeeperLayout = (LinearLayout.LayoutParams) counter_.getLayoutParams();
-//                countKeeperLayout.setMargins(10, 10, 0, 0);
                 countKeeper.setLayoutParams(countKeeperLayout);
                 countKeeper.setTypeface(signs, Typeface.BOLD);
                 countKeeper.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 countKeeper.setTextColor(getResources().getColor(R.color.signs));
-                countKeeper.setText("1");
+                countKeeper.setText(Integer.toString(countNum[0]));
+                countKeeper.setId(ckid);
                 linearLayout.addView(countKeeper);
 
                 // TextView for '+' sign
                 TextView addSign = new TextView(getApplicationContext());
                 TextView initAdd = (TextView) findViewById(R.id.init_add);
                 LinearLayout.LayoutParams addSignLayout = (LinearLayout.LayoutParams) initAdd.getLayoutParams();
-//                addSignLayout.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-//                addSignLayout.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-//                addSignLayout.setMargins(5, 0, 0, 0);
                 addSign.setLayoutParams(addSignLayout);
                 addSign.setText("+");
                 addSign.setTypeface(signs, Typeface.BOLD);
                 addSign.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 23);
                 addSign.setTextColor(getResources().getColor(R.color.signs));
+                addSign.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ++countNum[0];
+                        TextView tv = (TextView) itemsLayout.findViewById(ckid);
+                        tv.setText(Integer.toString(countNum[0]));
+//                        Toast.makeText(getApplicationContext(), Integer.toString(countNum[0]), Toast.LENGTH_SHORT).show();
+                    }
+                });
                 linearLayout.addView(addSign);
 
                 itemsLayout.addView(linearLayout);
-
             }
         });
 
