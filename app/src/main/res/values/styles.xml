@@ -62,4 +62,10 @@
         <item name="colorControlHighlight">@color/mainTheme</item>
     </style>
 
+    <style name="ShopEditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#000000</item>
+        <item name="colorControlActivated">#1A850B</item>
+        <item name="colorControlHighlight">#1A850B</item>
+    </style>
+
 </resources>

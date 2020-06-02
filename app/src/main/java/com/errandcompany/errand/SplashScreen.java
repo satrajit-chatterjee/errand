@@ -25,6 +25,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -34,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
@@ -47,6 +50,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -60,8 +64,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class SplashScreen extends AppCompatActivity{
@@ -70,6 +76,7 @@ public class SplashScreen extends AppCompatActivity{
     private boolean isFirstAnimation = false;
     RelativeLayout rellay1;
     Handler handler = new Handler();
+    FirebaseUser currentUser;
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -81,6 +88,7 @@ public class SplashScreen extends AppCompatActivity{
     Geocoder geocoder;
     List<Address> addresses;
     final int PERMISSION_ID = 1;
+    String globalAddr;
     SharedPreferences sharedPreferences;
     private FirebaseFirestore db;
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -171,7 +179,7 @@ public class SplashScreen extends AppCompatActivity{
         final Button btnSubmit = (Button) findViewById(R.id.button);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        currentUser = firebaseAuth.getCurrentUser();
 
 
         geocoder = new Geocoder(SplashScreen.this, Locale.getDefault());
@@ -188,11 +196,39 @@ public class SplashScreen extends AppCompatActivity{
         final String country = addresses.get(0).getCountryName();
         final String postalcode = addresses.get(0).getPostalCode();
         final String getAddr = address + ", " + area + ", " + city + ", " + postalcode;
+        globalAddr = getAddr;
 
         if (currentUser != null){
             intent.putExtra("name", currentUser.getDisplayName());
             intent.putExtra("phno", currentUser.getPhoneNumber());
             intent.putExtra("addr", getAddr);
+            Toast.makeText(getApplicationContext(),
+                    "Logging you in ...",
+                    Toast.LENGTH_LONG)
+                    .show();
+            db.collection("Users").document(currentUser.getUid()).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (!task.getResult().exists()){
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("phno", currentUser.getPhoneNumber());
+                                user.put("name", first_name.getText().toString()  + " " + last_name.getText().toString());
+                                user.put("addr", globalAddr);
+                                db.collection("Users").document(currentUser.getUid()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                            }
+                        }
+                    });
             startActivity(intent);
             finish();
         }
@@ -357,8 +393,32 @@ public class SplashScreen extends AppCompatActivity{
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(SplashScreen.this,
-                                    "Phone Number verified\nLogged in as " + intent.getStringExtra("name"),
+                                    "Phone Number verified & logged in as " + intent.getStringExtra("name"),
                                     Toast.LENGTH_LONG).show();
+                            final FirebaseUser newUser = FirebaseAuth.getInstance().getCurrentUser();
+                            db.collection("Users").document(newUser.getUid()).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (!task.getResult().exists()){
+                                                Map<String, Object> user = new HashMap<>();
+                                                user.put("phno", newUser.getPhoneNumber());
+                                                user.put("name", intent.getStringExtra("name"));
+                                                user.put("addr", globalAddr);
+                                                db.collection("Users").document(newUser.getUid()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Error writing document", e);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
                             startActivity(intent);
                             finish();
                         }

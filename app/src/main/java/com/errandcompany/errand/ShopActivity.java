@@ -1,9 +1,12 @@
 package com.errandcompany.errand;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,45 +18,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.core.widget.NestedScrollView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -66,20 +57,23 @@ public class ShopActivity extends AppCompatActivity{
     LinearLayout itemsLayout;
     FloatingActionButton floatingActionButton;
     EditText initEditText;
-    //    NavigationView navView;
-    private Intent login_intent;
+    MaterialButton placeOrder;
+    FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+    HashMap<Integer, String> orders;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shop_activity);
 
-
+        firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        orders = new HashMap<Integer, String>();
         initEditText  = (EditText) findViewById(R.id.init_item);
         itemsLayout = (LinearLayout) findViewById(R.id.shop_items_layout);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.shop_fab);
+        placeOrder = (MaterialButton) findViewById(R.id.place_order);
 
 //        AppBarLayout.LayoutParams p = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
 //        p.setScrollFlags(0);
@@ -99,30 +93,18 @@ public class ShopActivity extends AppCompatActivity{
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.menu_home){
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("name", login_intent.getStringExtra("name"));
-                    intent.putExtra("email", login_intent.getStringExtra("email"));
-                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
-                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
                     startActivity(intent);
                     finish();
                 }
 
                 else if (item.getItemId() == R.id.menu_shop){
                     Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
-                    intent.putExtra("name", login_intent.getStringExtra("name"));
-                    intent.putExtra("email", login_intent.getStringExtra("email"));
-                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
-                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
                     startActivity(intent);
                     finish();
                 }
 
                 else if (item.getItemId() == R.id.menu_feedback){
                     Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
-                    intent.putExtra("name", login_intent.getStringExtra("name"));
-                    intent.putExtra("email", login_intent.getStringExtra("email"));
-                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
-                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
                     startActivity(intent);
                     finish();
                 }
@@ -131,6 +113,8 @@ public class ShopActivity extends AppCompatActivity{
                 return true;
             }
         });
+
+        final String[] totalOrder = {""};
 
         initEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -147,6 +131,7 @@ public class ShopActivity extends AppCompatActivity{
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() != 0){
                     TextView counter = (TextView) findViewById(R.id.init_count);
+                    orders.put(-1, s.toString());
                     if (Integer.parseInt(counter.getText().toString()) == 0){
                         counter.setText(Integer.toString(Integer.parseInt(counter.getText().toString()) + 1));
                     }
@@ -154,13 +139,24 @@ public class ShopActivity extends AppCompatActivity{
             }
         });
 
-        ArrayList<TextView> remover = new ArrayList<TextView>();
+        placeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (orders.size() == 0)
+                    Toast.makeText(getApplicationContext(), "Please create your order list first", Toast.LENGTH_LONG).show();
+                else{
+                    for (Integer name: orders.keySet())
+                        totalOrder[0] += orders.get(name) + "\n\n";
+                    // start confirmation activity
+                    totalOrder[0] = "";
+                }
+            }
+        });
 
-        final int[] itemCountNum = {1};
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemCountNum[0]++;
+                int itemCountNum = itemsLayout.getChildCount() + 1;
                 final int linid = LinearLayout.generateViewId();
                 final int ckid = LinearLayout.generateViewId();
                 LinearLayout linearLayout = new LinearLayout(getApplicationContext());
@@ -174,9 +170,8 @@ public class ShopActivity extends AppCompatActivity{
                 final TextView itemCount = new TextView(getApplicationContext());
                 TextView parentItemCount = (TextView) findViewById(R.id.item_count_parent);
                 LinearLayout.LayoutParams itemCountLayoutParams = (LinearLayout.LayoutParams)  parentItemCount.getLayoutParams();
-//                itemCountLayoutParams.setMargins(10, 0, 0, 0);
                 itemCount.setLayoutParams(itemCountLayoutParams);
-                itemCount.setText(Integer.toString(itemCountNum[0]));
+                itemCount.setText(Integer.toString(itemCountNum));
                 itemCount.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 itemCount.setTypeface(font);
                 linearLayout.addView(itemCount);
@@ -199,9 +194,28 @@ public class ShopActivity extends AppCompatActivity{
                 itemEditText.setHint("Add item name");
                 itemEditText.setTextColor(getResources().getColor(R.color.black));
                 itemEditText.setMaxLines(1);
-                int edtxtid = LinearLayout.generateViewId();
+                final int edtxtid = LinearLayout.generateViewId();
                 itemEditText.setId(edtxtid);
                 linearLayout.addView(itemEditText);
+
+                // Adding EditText inputs to global variable
+                itemEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        orders.put(edtxtid, s.toString());
+                    }
+                });
+
 
                 final int[] countNum = {1};
 
@@ -220,14 +234,13 @@ public class ShopActivity extends AppCompatActivity{
                     public void onClick(View v) {
                         if (countNum[0] > 0){
                             --countNum[0];
-//                            LinearLayout linlay = (LinearLayout) v;
                             TextView tv = (TextView) itemsLayout.findViewById(ckid);
                             tv.setText(Integer.toString(countNum[0]));
-//                            Toast.makeText(getApplicationContext(), Integer.toString(countNum[0]), Toast.LENGTH_LONG).show();
                         }
                         if (countNum[0] == 0) {
                             LinearLayout linlay = (LinearLayout) itemsLayout.findViewById(linid);
                             itemsLayout.removeView(linlay);
+                            orders.remove(edtxtid);
                         }
                     }
                 });
@@ -260,12 +273,13 @@ public class ShopActivity extends AppCompatActivity{
                         ++countNum[0];
                         TextView tv = (TextView) itemsLayout.findViewById(ckid);
                         tv.setText(Integer.toString(countNum[0]));
-//                        Toast.makeText(getApplicationContext(), Integer.toString(countNum[0]), Toast.LENGTH_SHORT).show();
                     }
                 });
                 linearLayout.addView(addSign);
 
                 itemsLayout.addView(linearLayout);
+                NestedScrollView scroll = (NestedScrollView) findViewById(R.id.shop_scroll_view);
+                scroll.fullScroll(View.FOCUS_DOWN);
             }
         });
 
@@ -286,36 +300,31 @@ public class ShopActivity extends AppCompatActivity{
 //
 //        });
 
-
-        login_intent = getIntent();
-
-
-
         // Add new user to Firestore database
-        db.collection("Users").document(login_intent.getStringExtra("phno")).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (!task.getResult().exists()){
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("phno", login_intent.getStringExtra("phno"));
-                            user.put("name", login_intent.getStringExtra("name"));
-                            user.put("email", login_intent.getStringExtra("email"));
-                            user.put("addr", login_intent.getStringExtra("addr"));
-                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing document", e);
-                                }
-                            });
-                        }
-                    }
-                });
+//        db.collection("Users").document(login_intent.getStringExtra("phno")).get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (!task.getResult().exists()){
+//                            Map<String, Object> user = new HashMap<>();
+//                            user.put("phno", login_intent.getStringExtra("phno"));
+//                            user.put("name", login_intent.getStringExtra("name"));
+//                            user.put("email", login_intent.getStringExtra("email"));
+//                            user.put("addr", login_intent.getStringExtra("addr"));
+//                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void aVoid) {
+//                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+//                                }
+//                            }).addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    Log.w(TAG, "Error writing document", e);
+//                                }
+//                            });
+//                        }
+//                    }
+//                });
 
 //        shop_button = (MaterialButton) findViewById(R.id.shop_submit);
 //        shop_button.setOnClickListener(new View.OnClickListener() {
@@ -412,6 +421,7 @@ public class ShopActivity extends AppCompatActivity{
 
         if (Integer.parseInt(counter.getText().toString()) == 0){
             initEditText.getText().clear();
+            orders.remove(-1);
         }
 
     }
@@ -419,6 +429,20 @@ public class ShopActivity extends AppCompatActivity{
     public void init_add(View view){
         TextView counter = (TextView) findViewById(R.id.init_count);
         counter.setText(Integer.toString(Integer.parseInt(counter.getText().toString()) + 1));
+    }
+
+    public void shop_info(View view){
+        final Dialog shopInfoPopup = new Dialog(this);
+        shopInfoPopup.setContentView(R.layout.shop_info_popup);
+        TextView closeInfo = (TextView) shopInfoPopup.findViewById(R.id.cancel_shop_info);
+        closeInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopInfoPopup.dismiss();
+            }
+        });
+        shopInfoPopup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        shopInfoPopup.show();
 
 
     }

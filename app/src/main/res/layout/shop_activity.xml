@@ -107,6 +107,7 @@
                        android:fontFamily="@font/avenir"
                        android:hint="Add item name"
                        android:textColor="@color/black"
+                       android:theme="@style/ShopEditTextTheme"
                        android:maxLines="1"
                        android:layout_marginLeft="15dp"
                        />
@@ -197,14 +198,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/info"/>
+                android:src="@drawable/info"
+                android:onClick="shop_info"/>
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/shop_address"
+            android:id="@+id/place_order"
             android:layout_width="300dp"
             android:backgroundTint="#FF5722"
-            android:text="Select Delivery Address"
+            android:text="Place Order"
             android:textAllCaps="false"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
