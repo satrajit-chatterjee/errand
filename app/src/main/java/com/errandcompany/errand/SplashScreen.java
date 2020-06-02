@@ -195,7 +195,7 @@ public class SplashScreen extends AppCompatActivity{
         final String city = addresses.get(0).getAdminArea();
         final String country = addresses.get(0).getCountryName();
         final String postalcode = addresses.get(0).getPostalCode();
-        final String getAddr = address + ", " + area + ", " + city + ", " + postalcode;
+        final String getAddr = address;
         globalAddr = getAddr;
 
         if (currentUser != null){
@@ -213,7 +213,8 @@ public class SplashScreen extends AppCompatActivity{
                             if (!task.getResult().exists()){
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("phno", currentUser.getPhoneNumber());
-                                user.put("name", first_name.getText().toString()  + " " + last_name.getText().toString());
+                                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                                user.put("name", sharedPref.getString("name", ""));
                                 user.put("addr", globalAddr);
                                 db.collection("Users").document(currentUser.getUid()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -419,6 +420,12 @@ public class SplashScreen extends AppCompatActivity{
                                             }
                                         }
                                     });
+
+
+                            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+                            editor.putString("name", intent.getStringExtra("name"));
+                            editor.commit();
+
                             startActivity(intent);
                             finish();
                         }

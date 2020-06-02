@@ -60,6 +60,7 @@ public class ShopActivity extends AppCompatActivity{
     MaterialButton placeOrder;
     FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+    String initOrder = "1";
     HashMap<Integer, String> orders;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -131,7 +132,7 @@ public class ShopActivity extends AppCompatActivity{
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() != 0){
                     TextView counter = (TextView) findViewById(R.id.init_count);
-                    orders.put(-1, s.toString());
+                    orders.put(-1, "1" + ". " + s.toString() + "--->(" + initOrder + ")");
                     if (Integer.parseInt(counter.getText().toString()) == 0){
                         counter.setText(Integer.toString(Integer.parseInt(counter.getText().toString()) + 1));
                     }
@@ -148,6 +149,9 @@ public class ShopActivity extends AppCompatActivity{
                     for (Integer name: orders.keySet())
                         totalOrder[0] += orders.get(name) + "\n\n";
                     // start confirmation activity
+                    Intent intent = new Intent(getApplicationContext(), ConfirmOrder.class);
+                    intent.putExtra("order_details", totalOrder[0]);
+                    startActivity(intent);
                     totalOrder[0] = "";
                 }
             }
@@ -159,6 +163,7 @@ public class ShopActivity extends AppCompatActivity{
                 int itemCountNum = itemsLayout.getChildCount() + 1;
                 final int linid = LinearLayout.generateViewId();
                 final int ckid = LinearLayout.generateViewId();
+                final int[] countNum = {1};
                 LinearLayout linearLayout = new LinearLayout(getApplicationContext());
                 linearLayout.setBackgroundResource(R.drawable.lin_lay_border);
                 linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -199,6 +204,7 @@ public class ShopActivity extends AppCompatActivity{
                 linearLayout.addView(itemEditText);
 
                 // Adding EditText inputs to global variable
+                final int indexNum = itemCountNum;
                 itemEditText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -212,12 +218,9 @@ public class ShopActivity extends AppCompatActivity{
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        orders.put(edtxtid, s.toString());
+                        orders.put(edtxtid, indexNum + ". " + s.toString() + "--->(" + countNum[0] + ")");
                     }
                 });
-
-
-                final int[] countNum = {1};
 
                 // TextView for '-' sign
                 TextView removeSign = new TextView(getApplicationContext());
@@ -236,6 +239,10 @@ public class ShopActivity extends AppCompatActivity{
                             --countNum[0];
                             TextView tv = (TextView) itemsLayout.findViewById(ckid);
                             tv.setText(Integer.toString(countNum[0]));
+                            if (!Objects.equals(orders.get(edtxtid), null)) {
+                                String data = Objects.requireNonNull(orders.get(edtxtid)).substring(0, Objects.requireNonNull(orders.get(edtxtid)).indexOf("-"));
+                                orders.put(edtxtid, data + "--->(" + countNum[0] + ")");
+                            }
                         }
                         if (countNum[0] == 0) {
                             LinearLayout linlay = (LinearLayout) itemsLayout.findViewById(linid);
@@ -273,6 +280,10 @@ public class ShopActivity extends AppCompatActivity{
                         ++countNum[0];
                         TextView tv = (TextView) itemsLayout.findViewById(ckid);
                         tv.setText(Integer.toString(countNum[0]));
+                        if (!Objects.equals(orders.get(edtxtid), null)) {
+                            String data = Objects.requireNonNull(orders.get(edtxtid)).substring(0, Objects.requireNonNull(orders.get(edtxtid)).indexOf("-"));
+                            orders.put(edtxtid, data + "--->(" + countNum[0] + ")");
+                        }
                     }
                 });
                 linearLayout.addView(addSign);
@@ -283,110 +294,7 @@ public class ShopActivity extends AppCompatActivity{
             }
         });
 
-
-//        shopText.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                view.getParent().requestDisallowInterceptTouchEvent(true);
-//                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
-//                    case MotionEvent.ACTION_UP:
-//                        view.getParent().requestDisallowInterceptTouchEvent(false);
-//                        break;
-//                }
-//
-//                return false;
-//            }
-//
-//        });
-
-        // Add new user to Firestore database
-//        db.collection("Users").document(login_intent.getStringExtra("phno")).get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (!task.getResult().exists()){
-//                            Map<String, Object> user = new HashMap<>();
-//                            user.put("phno", login_intent.getStringExtra("phno"));
-//                            user.put("name", login_intent.getStringExtra("name"));
-//                            user.put("email", login_intent.getStringExtra("email"));
-//                            user.put("addr", login_intent.getStringExtra("addr"));
-//                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-//                                }
-//                            }).addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Log.w(TAG, "Error writing document", e);
-//                                }
-//                            });
-//                        }
-//                    }
-//                });
-
-//        shop_button = (MaterialButton) findViewById(R.id.shop_submit);
-//        shop_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (shopText.getText().toString().isEmpty()) {
-//                    Toast.makeText(getApplicationContext(),
-//                            "Please enter your order details",
-//                            Toast.LENGTH_LONG)
-//                            .show();
-//                }
-//                else {
-//                    Map<String, Object> new_order = new HashMap<>();
-//                    new_order.put("phno", login_intent.getStringExtra("phno"));
-//                    new_order.put("order_details", shopText.getText().toString());
-//                    new_order.put("name", login_intent.getStringExtra("name"));
-//                    new_order.put("email", login_intent.getStringExtra("email"));
-//                    new_order.put("addr", login_intent.getStringExtra("addr"));
-//                    Date date = Calendar.getInstance().getTime();
-//                    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-//                    String dateTime = dateFormat.format(date);
-//
-//                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("active_orders")
-//                            .document(dateTime)
-//                            .set(new_order)
-//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-//                                    Toast.makeText(getApplicationContext(),
-//                                            "Order Success!",
-//                                            Toast.LENGTH_LONG)
-//                                            .show();
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Log.w(TAG, "Error writing document", e);
-//                                    Toast.makeText(getApplicationContext(),
-//                                            "There was an error submitting your order.",
-//                                            Toast.LENGTH_LONG)
-//                                            .show();
-//                                }
-//                            });
-//
-//                    shopText.getText().clear();
-//
-//
-//                }
-//            }
-//        });
-
     }
-
-//    public void flipperAds(){
-//        adflipper = findViewById(R.id.ad_flipper_shop);
-//        adflipper.setFlipInterval(2000);  // 2 sec
-//        adflipper.setInAnimation(this, android.R.anim.slide_in_left);
-//        adflipper.setOutAnimation(this, android.R.anim.slide_out_right);
-//        adflipper.startFlipping();
-//    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -414,10 +322,17 @@ public class ShopActivity extends AppCompatActivity{
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void init_remove(View view){
         TextView counter = (TextView) findViewById(R.id.init_count);
-        if (Integer.parseInt(counter.getText().toString()) > 0)
+        if (Integer.parseInt(counter.getText().toString()) > 0){
+            initOrder = Integer.toString(Integer.parseInt(counter.getText().toString()) - 1);
+            if (!Objects.equals(orders.get(-1), null)) {
+                String data = Objects.requireNonNull(orders.get(-1)).substring(0, Objects.requireNonNull(orders.get(-1)).indexOf("-"));
+                orders.put(-1, data + "--->(" + initOrder + ")");
+            }
             counter.setText(Integer.toString(Integer.parseInt(counter.getText().toString()) - 1));
+        }
 
         if (Integer.parseInt(counter.getText().toString()) == 0){
             initEditText.getText().clear();
@@ -426,8 +341,14 @@ public class ShopActivity extends AppCompatActivity{
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void init_add(View view){
         TextView counter = (TextView) findViewById(R.id.init_count);
+        initOrder = Integer.toString(Integer.parseInt(counter.getText().toString()) + 1);
+        if (!Objects.equals(orders.get(-1), null)) {
+            String data = Objects.requireNonNull(orders.get(-1)).substring(0, Objects.requireNonNull(orders.get(-1)).indexOf("-"));
+            orders.put(-1, data + "--->(" + initOrder + ")");
+        }
         counter.setText(Integer.toString(Integer.parseInt(counter.getText().toString()) + 1));
     }
 

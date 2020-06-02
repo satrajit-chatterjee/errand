@@ -36,6 +36,17 @@
         <activity
             android:name="com.errandcompany.errand.ShopActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:label="Errand">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.APP_EMAIL" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.errandcompany.errand.ConfirmOrder"
+            android:screenOrientation="portrait"
             android:label="Errand">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
