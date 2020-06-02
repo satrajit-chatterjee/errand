@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity{
     private MaterialButton shopButton;
     private MaterialButton acRepair;
 
+    private MaterialButton popupShop;
+    private MaterialButton popupErrand;
+    private MaterialButton popupLifesyle;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +106,38 @@ public class MainActivity extends AppCompatActivity{
                     intent.putExtra("phno", login_intent.getStringExtra("phno"));
                     intent.putExtra("addr", login_intent.getStringExtra("addr"));
                     shop_popup.setContentView(R.layout.shop_popup);
+                    popupShop = (MaterialButton) shop_popup.findViewById(R.id.shop_order_button);
+                    popupErrand = (MaterialButton) shop_popup.findViewById(R.id.errand_order_button);
+                    popupLifesyle = (MaterialButton) shop_popup.findViewById(R.id.lifestyle_order_button);
                     TextView closeShop = (TextView) shop_popup.findViewById(R.id.cancel_shop_popup);
                     closeShop.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             shop_popup.dismiss();
+                        }
+                    });
+
+                    popupShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    popupErrand.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), ErrandActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    popupLifesyle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), LifestyleServices.class);
+                            startActivity(intent);
                         }
                     });
                     shop_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -133,7 +164,6 @@ public class MainActivity extends AppCompatActivity{
     public void parlour(View view){
         final Intent intent = new Intent(this, LifestyleServices.class);
         intent.putExtra("name", login_intent.getStringExtra("name"));
-        intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));
         intent.putExtra("addr", login_intent.getStringExtra("addr"));
         startActivity(intent);
@@ -142,7 +172,6 @@ public class MainActivity extends AppCompatActivity{
     public void grooming(View view){
         final Intent intent = new Intent(this, LifestyleServices.class);
         intent.putExtra("name", login_intent.getStringExtra("name"));
-        intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));
         intent.putExtra("addr", login_intent.getStringExtra("addr"));
         startActivity(intent);
@@ -151,7 +180,6 @@ public class MainActivity extends AppCompatActivity{
     public void grocery(View view){
         final Intent intent = new Intent(this, ShopActivity.class);
         intent.putExtra("name", login_intent.getStringExtra("name"));
-        intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));
         intent.putExtra("addr", login_intent.getStringExtra("addr"));
         startActivity(intent);
@@ -196,7 +224,6 @@ public class MainActivity extends AppCompatActivity{
     public void fresh(View view){
         final Intent intent = new Intent(this, ShopActivity.class);
         intent.putExtra("name", login_intent.getStringExtra("name"));
-        intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));
         intent.putExtra("addr", login_intent.getStringExtra("addr"));
         startActivity(intent);
@@ -205,7 +232,6 @@ public class MainActivity extends AppCompatActivity{
     public void office(View view){
         final Intent intent = new Intent(this, ShopActivity.class);
         intent.putExtra("name", login_intent.getStringExtra("name"));
-        intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));
         intent.putExtra("addr", login_intent.getStringExtra("addr"));
         startActivity(intent);
@@ -214,7 +240,6 @@ public class MainActivity extends AppCompatActivity{
     public void other_services(View view){
         final Intent intent = new Intent(this, ShopActivity.class);
         intent.putExtra("name", login_intent.getStringExtra("name"));
-        intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));
         intent.putExtra("addr", login_intent.getStringExtra("addr"));
         startActivity(intent);

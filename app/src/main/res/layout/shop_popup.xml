@@ -62,6 +62,7 @@
                         android:layout_marginBottom="32dp"/>
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/shop_order_button"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -107,6 +108,7 @@
                         android:layout_marginBottom="32dp"/>
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/errand_order_button"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -171,6 +173,7 @@
                         android:layout_marginBottom="32dp"/>
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/lifestyle_order_button"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
