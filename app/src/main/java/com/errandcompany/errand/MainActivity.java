@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void parlour(View view){
-        final Intent intent = new Intent(this, ShopActivity.class);
+        final Intent intent = new Intent(this, LifestyleServices.class);
         intent.putExtra("name", login_intent.getStringExtra("name"));
         intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void grooming(View view){
-        final Intent intent = new Intent(this, ShopActivity.class);
+        final Intent intent = new Intent(this, LifestyleServices.class);
         intent.putExtra("name", login_intent.getStringExtra("name"));
         intent.putExtra("email", login_intent.getStringExtra("email"));
         intent.putExtra("phno", login_intent.getStringExtra("phno"));

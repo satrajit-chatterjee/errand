@@ -335,6 +335,7 @@ public class ShopActivity extends AppCompatActivity{
         }
 
         if (Integer.parseInt(counter.getText().toString()) == 0){
+            initOrder = "1";
             initEditText.getText().clear();
             orders.remove(-1);
         }
