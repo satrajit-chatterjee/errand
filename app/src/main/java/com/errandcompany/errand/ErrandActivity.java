@@ -1,6 +1,7 @@
 package com.errandcompany.errand;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,7 +10,9 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +43,11 @@ public class ErrandActivity extends AppCompatActivity {
     MaterialButton placeOrder;
     private FirebaseFirestore db;
     private BottomNavigationView bottomNavigationView;
+    Dialog shop_popup;
 
+    private MaterialButton popupShop;
+    private MaterialButton popupErrand;
+    private MaterialButton popupLifesyle;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -50,6 +57,7 @@ public class ErrandActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.topAppBar_shop);
         setSupportActionBar(mToolbar);
+        shop_popup = new Dialog(this);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view_errand);
 
@@ -65,9 +73,46 @@ public class ErrandActivity extends AppCompatActivity {
                 }
 
                 else if (item.getItemId() == R.id.menu_shop){
-                    Intent intent = new Intent(getApplicationContext(), ErrandActivity.class);
-                    startActivity(intent);
-                    finish();
+                    shop_popup.setContentView(R.layout.shop_popup);
+                    popupShop = (MaterialButton) shop_popup.findViewById(R.id.shop_order_button);
+                    popupErrand = (MaterialButton) shop_popup.findViewById(R.id.errand_order_button);
+                    popupLifesyle = (MaterialButton) shop_popup.findViewById(R.id.lifestyle_order_button);
+                    TextView closeShop = (TextView) shop_popup.findViewById(R.id.cancel_shop_popup);
+                    closeShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            shop_popup.dismiss();
+                        }
+                    });
+
+                    popupShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
+                    popupErrand.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), ErrandActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
+                    popupLifesyle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), LifestyleServices.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    shop_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    shop_popup.show();
                 }
 
                 else if (item.getItemId() == R.id.menu_feedback){
@@ -302,6 +347,15 @@ public class ErrandActivity extends AppCompatActivity {
         pickDesc.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         errandInfoPopup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         errandInfoPopup.show();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(event);
     }
 
 }

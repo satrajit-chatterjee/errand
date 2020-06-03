@@ -56,6 +56,7 @@ public class ShopActivity extends AppCompatActivity{
     private BottomNavigationView bottomNavigationView;
     private Toolbar mToolbar;
     LinearLayout itemsLayout;
+    Dialog shop_popup;
     FloatingActionButton floatingActionButton;
     EditText initEditText;
     MaterialButton placeOrder;
@@ -63,6 +64,11 @@ public class ShopActivity extends AppCompatActivity{
     private FirebaseFirestore db;
     String initOrder = "1";
     HashMap<Integer, String> orders;
+
+    private MaterialButton popupShop;
+    private MaterialButton popupErrand;
+    private MaterialButton popupLifesyle;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +82,7 @@ public class ShopActivity extends AppCompatActivity{
         itemsLayout = (LinearLayout) findViewById(R.id.shop_items_layout);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.shop_fab);
         placeOrder = (MaterialButton) findViewById(R.id.place_order);
+        shop_popup = new Dialog(this);
 
 //        AppBarLayout.LayoutParams p = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
 //        p.setScrollFlags(0);
@@ -100,9 +107,47 @@ public class ShopActivity extends AppCompatActivity{
                 }
 
                 else if (item.getItemId() == R.id.menu_shop){
-                    Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
-                    startActivity(intent);
-                    finish();
+                    shop_popup.setContentView(R.layout.shop_popup);
+                    popupShop = (MaterialButton) shop_popup.findViewById(R.id.shop_order_button);
+                    popupErrand = (MaterialButton) shop_popup.findViewById(R.id.errand_order_button);
+                    popupLifesyle = (MaterialButton) shop_popup.findViewById(R.id.lifestyle_order_button);
+                    TextView closeShop = (TextView) shop_popup.findViewById(R.id.cancel_shop_popup);
+                    closeShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            shop_popup.dismiss();
+                        }
+                    });
+
+                    popupShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
+                    popupErrand.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), ErrandActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
+                    popupLifesyle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), LifestyleServices.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    shop_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    shop_popup.show();
+
                 }
 
                 else if (item.getItemId() == R.id.menu_feedback){
@@ -300,20 +345,11 @@ public class ShopActivity extends AppCompatActivity{
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if ( v instanceof TextInputEditText) {
-                Rect outRect = new Rect();
-                v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-                    v.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override

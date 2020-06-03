@@ -173,7 +173,7 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="Order Details"
-                       android:textSize="20dp"
+                       android:textSize="25dp"
                        android:layout_marginLeft="25dp"
                        android:fontFamily="@font/avenir"
                        android:textColor="@color/black"
@@ -192,6 +192,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/final_confirm"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"

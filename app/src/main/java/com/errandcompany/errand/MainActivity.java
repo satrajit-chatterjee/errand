@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity{
         acRepair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intent);
+                final Intent i = new Intent(getApplicationContext(), LifestyleServices.class);
+                startActivity(i);
             }
         });
 
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity{
                 }
 
                 else if (item.getItemId() == R.id.menu_shop){
-                    Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
                     shop_popup.setContentView(R.layout.shop_popup);
                     popupShop = (MaterialButton) shop_popup.findViewById(R.id.shop_order_button);
                     popupErrand = (MaterialButton) shop_popup.findViewById(R.id.errand_order_button);

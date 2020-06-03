@@ -5,189 +5,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/confirm_order_bg"
     android:layout_marginTop="0dp"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <androidx.core.widget.NestedScrollView
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
-        android:layout_height="600dp">
-
-        <com.google.android.material.card.MaterialCardView
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            app:strokeWidth="1dp"
-            android:layout_height="550dp"
-            app:strokeColor="@color/stroke_color"
-            app:cardElevation="0dp">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-            <ViewFlipper
-                android:id="@+id/ad_flipper_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/black">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="CONVENIENCE AT YOUR DOORSTEPS"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/futura"
-                    android:textSize="13sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="AFFORDABLE RATES"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/futura"
-                    android:textSize="13sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="ONE DAY DELIVERY"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/futura"
-                    android:textSize="13sp"
-                    android:gravity="center"/>
-
-            </ViewFlipper>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/mainTheme"
-                android:layout_marginTop="45dp"
-                android:orientation="vertical">
+                android:layout_marginTop="20dp"
+                android:text="Feedback"
+                android:textColor="@color/white"
+                android:fontFamily="@font/avenir_bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_gravity="center"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                app:lottie_rawRes="@raw/stars"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <!-- Title, secondary and supporting text -->
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
                     <TextView
-                        android:id="@+id/order_rates"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Your Feedback is Valuable to Us"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/futura"
-                        android:textAppearance="?attr/textAppearanceHeadline5"
-                        />
-
-                    <TextView
-                        android:layout_marginTop="30dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tell us how we can improve"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/futura"
-                        android:textAppearance="?attr/textAppearanceSubtitle1"
-                        />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textField"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:elevation="@dimen/cardview_default_elevation"
-                        android:hint="Feedback"
-                        android:theme="@style/TextInputLayoutAppearance"
-                        android:paddingHorizontal="20sp"
-                        app:boxCornerRadiusBottomEnd="5dp"
-                        app:boxCornerRadiusBottomStart="5dp"
-                        app:boxCornerRadiusTopEnd="5dp"
-                        app:boxCornerRadiusTopStart="5dp"
-                        app:counterTextAppearance="@font/avenir">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/feedback_text"
-                            android:layout_width="match_parent"
-                            android:overScrollMode="always"
-                            android:inputType="textMultiLine"
-                            android:scrollbarStyle="insideInset"
-                            android:scrollbars="vertical"
-                            android:layout_height="200dp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/feedback_submit"
-                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
+                        android:text="Your feedback is valuable to us"
+                        android:textSize="20dp"
                         android:fontFamily="@font/avenir"
-                        android:gravity="center"
-                        android:paddingHorizontal="25dp"
-                        android:paddingTop="1dp"
-                        android:paddingBottom="1dp"
-                        android:text="Submit"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="10dp"/>
+
+                    <RatingBar
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:stepSize="1"
+                        android:theme="@style/RatingBar"/>
+
+                    <LinearLayout
+                        android:layout_width="280dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/lin_lay_bg_2"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/feedback_desc"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenir"
+                            android:theme="@style/ErrandDestinationEditTextTheme"
+                            android:hint="Help us improve"
+                            android:textSize="20dp"
+                            android:textColor="@color/black"
+                            android:layout_marginLeft="15dp"/>
+
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/submit_feedback"
+                        android:layout_width="300dp"
+                        android:layout_marginTop="50dp"
+                        android:backgroundTint="#FF5722"
+                        android:text="Submit Feedback"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        app:strokeColor="@color/white"
-                        app:strokeWidth="1dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"/>
+
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+        </LinearLayout>
 
-
-
-        </com.google.android.material.card.MaterialCardView>
     </androidx.core.widget.NestedScrollView>
-
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="128dp"
-        app:liftOnScroll="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-        android:stateListAnimator="@animator/always_elevated">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:expandedTitleMarginStart="72dp"
-            app:expandedTitleMarginBottom="28dp"
-            app:titleEnabled="false"
-            android:background="@color/white">
-
-            <ImageView
-                android:id="@+id/img_group_photo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:src="@drawable/cropped_logo_tra"
-                android:scaleType="fitStart"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="5"/>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/topAppBar_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/Theme.AppCompat.Light"
-                app:layout_collapseMode="pin"
-                app:menu="@menu/menu_main">
-
-
-            </androidx.appcompat.widget.Toolbar>
-
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view_feedback"
@@ -196,7 +120,6 @@
         app:menu="@menu/menu_main"
         android:layout_gravity="bottom"
         app:itemTextColor="@color/black"
-        app:labelVisibilityMode="labeled"
         app:itemHorizontalTranslationEnabled="true"
         app:itemTextAppearance="@style/nav_drawer_style"
         app:itemIconTint="@color/mainTheme">

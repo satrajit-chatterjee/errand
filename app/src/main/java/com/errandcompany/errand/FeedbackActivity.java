@@ -1,20 +1,27 @@
 package com.errandcompany.errand;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -35,6 +42,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -48,16 +57,13 @@ import java.util.Objects;
 
 public class FeedbackActivity extends AppCompatActivity{
 
-    private static final String TAG = FeedbackActivity.class.getName();
+    Dialog feedback_popup;
+    MaterialButton feedbackSubmit;
+    BottomNavigationView bottomNavigationView;
 
-    private TextInputEditText feedbackText;
-    ViewFlipper adflipper;
-    private Toolbar mToolbar;
-    private BottomNavigationView bottomNavigationView;
-    private Intent login_intent;
-    private MaterialButton feedbackSubmit;
-
-    private FirebaseFirestore db;
+    private MaterialButton popupShop;
+    private MaterialButton popupErrand;
+    private MaterialButton popupLifesyle;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -65,150 +71,125 @@ public class FeedbackActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
-        flipperAds();
-        mToolbar = findViewById(R.id.topAppBar_feedback);
-        setSupportActionBar(mToolbar);
-        feedbackText = (TextInputEditText) findViewById(R.id.feedback_text);
+        feedback_popup = new Dialog(this);
+        feedbackSubmit = (MaterialButton) findViewById(R.id.submit_feedback);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view_feedback);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-
-        db = FirebaseFirestore.getInstance();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.menu_home){
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("name", login_intent.getStringExtra("name"));
-                    intent.putExtra("email", login_intent.getStringExtra("email"));
-                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
-                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
                     startActivity(intent);
                     finish();
                 }
 
                 else if (item.getItemId() == R.id.menu_shop){
-                    Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
-                    intent.putExtra("name", login_intent.getStringExtra("name"));
-                    intent.putExtra("email", login_intent.getStringExtra("email"));
-                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
-                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
-                    startActivity(intent);
-                    finish();
+                    feedback_popup.setContentView(R.layout.shop_popup);
+                    popupShop = (MaterialButton) feedback_popup.findViewById(R.id.shop_order_button);
+                    popupErrand = (MaterialButton) feedback_popup.findViewById(R.id.errand_order_button);
+                    popupLifesyle = (MaterialButton) feedback_popup.findViewById(R.id.lifestyle_order_button);
+                    TextView closeShop = (TextView) feedback_popup.findViewById(R.id.cancel_shop_popup);
+                    closeShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            feedback_popup.dismiss();
+                        }
+                    });
+
+                    popupShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), ShopActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    popupErrand.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), ErrandActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    popupLifesyle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent intent = new Intent(getApplicationContext(), LifestyleServices.class);
+                            startActivity(intent);
+                        }
+                    });
+                    feedback_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    feedback_popup.show();
                 }
 
                 else if (item.getItemId() == R.id.menu_feedback){
                     Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
-                    intent.putExtra("name", login_intent.getStringExtra("name"));
-                    intent.putExtra("email", login_intent.getStringExtra("email"));
-                    intent.putExtra("phno", login_intent.getStringExtra("phno"));
-                    intent.putExtra("addr", login_intent.getStringExtra("addr"));
                     startActivity(intent);
                     finish();
                 }
-
-
                 return true;
             }
         });
 
-
-        feedbackText.setOnTouchListener(new View.OnTouchListener() {
+        final RatingBar ratingBar = findViewById(R.id.rating);
+        final float[] givenRating = {0};
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                view.getParent().requestDisallowInterceptTouchEvent(true);
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
-                    case MotionEvent.ACTION_UP:
-                        view.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-
-                return false;
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                givenRating[0] = rating;
             }
-
         });
 
-        login_intent = getIntent();
-
-
-//         Add new user to Firestore database
-        db.collection("Users").document(login_intent.getStringExtra("phno")).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (!task.getResult().exists()){
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("phno", login_intent.getStringExtra("phno"));
-                            user.put("name", login_intent.getStringExtra("name"));
-                            user.put("email", login_intent.getStringExtra("email"));
-                            user.put("addr", login_intent.getStringExtra("addr"));
-                            db.collection("Users").document(login_intent.getStringExtra("phno")).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing document", e);
-
-                                }
-                            });
-                        }
-                    }
-                });
-
-
-        feedbackSubmit = (MaterialButton) findViewById(R.id.feedback_submit);
         feedbackSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (feedbackText.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter a feedback.",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-                else {
-                    Map<String, Object> new_feedback = new HashMap<>();
-                    new_feedback.put("phno", login_intent.getStringExtra("phno"));
-                    new_feedback.put("feedback", feedbackText.getText().toString());
-                    new_feedback.put("name", login_intent.getStringExtra("name"));
-                    new_feedback.put("email", login_intent.getStringExtra("email"));
-                    new_feedback.put("addr", login_intent.getStringExtra("addr"));
-                    Date date = Calendar.getInstance().getTime();
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                    String dateTime = dateFormat.format(date);
-
-                    db.collection("Users").document(login_intent.getStringExtra("phno")).collection("feedback")
-                            .document(dateTime)
-                            .set(new_feedback)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                final EditText feedbackText = (EditText) findViewById(R.id.feedback_desc);
+                final String feedback = feedbackText.getText().toString().trim();
+                if (feedback.length() > 0 && givenRating[0] != 0.0){
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    db.collection("Users").document(currentUser.getUid()).get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    Toast.makeText(getApplicationContext(),
-                                            "Thank you for your feedback!",
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing document", e);
-                                    Toast.makeText(getApplicationContext(),
-                                            "There was an error submitting your feedback.",
-                                            Toast.LENGTH_LONG)
-                                            .show();
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.getResult().exists()){
+                                        Map<String, Object> user = new HashMap<>();
+                                        user.put("feedback", feedback);
+                                        user.put("rating", givenRating[0]);
+                                        Date date = Calendar.getInstance().getTime();
+                                        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                                        String dateTime = dateFormat.format(date);
+                                        final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                        db.collection("Users").document(currentUser.getUid()).collection("Feedback").document(dateTime).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(getApplicationContext(),
+                                                        "Thank you for your feedback!",
+                                                        Toast.LENGTH_LONG)
+                                                        .show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(),
+                                                        "There was an error submitting your feedback.",
+                                                        Toast.LENGTH_LONG)
+                                                        .show();
+                                                rateApp();
+                                                feedbackText.getText().clear();
+                                            }
+                                        });
+                                    }
                                 }
                             });
-
-                    feedbackText.getText().clear();
-                    rateApp();
                 }
+                else
+                    Toast.makeText(getApplicationContext(), "Please enter a feedback",
+                            Toast.LENGTH_LONG).show();
             }
         });
 
@@ -245,38 +226,13 @@ public class FeedbackActivity extends AppCompatActivity{
         return intent;
     }
 
-    public void flipperAds(){
-        adflipper = findViewById(R.id.ad_flipper_feedback);
-        adflipper.setFlipInterval(2000);  // 2 sec
-        adflipper.setInAnimation(this, android.R.anim.slide_in_left);
-        adflipper.setOutAnimation(this, android.R.anim.slide_out_right);
-        adflipper.startFlipping();
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if ( v instanceof TextInputEditText) {
-                Rect outRect = new Rect();
-                v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-                    v.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
-        return super.dispatchTouchEvent( event );
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return false;
+        return super.dispatchTouchEvent(event);
     }
 
 }
