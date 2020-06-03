@@ -97,15 +97,15 @@
                         android:layout_marginLeft="25dp"
                         android:layout_marginBottom="10dp"/>
 
-                    <TextView
+                    <EditText
                         android:id="@+id/confirm_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
+                        android:theme="@style/ErrandDestinationEditTextTheme"
                         android:fontFamily="@font/avenir"
                         android:textColor="@color/black"
-                        android:background="@drawable/lin_lay_bg_2"
-                        android:onClick="update_name"/>
+                        android:background="@drawable/lin_lay_bg_2"/>
 
                     <TextView
                         android:layout_marginTop="15dp"
@@ -118,16 +118,16 @@
                         android:textColor="@color/black"
                         android:layout_marginBottom="10dp"/>
 
-                    <TextView
+                    <EditText
                         android:id="@+id/confirm_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
+                        android:theme="@style/ErrandDestinationEditTextTheme"
                         android:fontFamily="@font/avenir"
                         android:textColor="@color/black"
                         android:layout_marginRight="5dp"
-                        android:background="@drawable/lin_lay_bg_2"
-                        android:onClick="update_address"/>
+                        android:background="@drawable/lin_lay_bg_2"/>
 
                     <TextView
                         android:layout_marginTop="15dp"
@@ -140,15 +140,15 @@
                         android:textColor="@color/black"
                         android:layout_marginBottom="10dp"/>
 
-                    <TextView
+                    <EditText
                         android:id="@+id/confirm_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
+                        android:theme="@style/ErrandDestinationEditTextTheme"
                         android:fontFamily="@font/avenir"
                         android:textColor="@color/black"
                         android:background="@drawable/lin_lay_bg_2"
-                        android:onClick="update_phone"
                         android:layout_marginBottom="10dp"/>
 
                 </LinearLayout>

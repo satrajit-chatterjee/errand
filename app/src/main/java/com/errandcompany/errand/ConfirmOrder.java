@@ -3,6 +3,7 @@ package com.errandcompany.errand;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,13 +48,16 @@ public class ConfirmOrder extends AppCompatActivity {
                     addr[0] = documentSnapshot.get("addr").toString();
                     phno[0] = documentSnapshot.get("phno").toString();
 
-                    TextView nameView = (TextView) findViewById(R.id.confirm_name);
+                    EditText nameView = (EditText) findViewById(R.id.confirm_name);
                     nameView.setText(name[0]);
 
-                    TextView addrView = (TextView) findViewById(R.id.confirm_address);
-                    addrView.setText(addr[0]);
+                    EditText addrView = (EditText) findViewById(R.id.confirm_address);
+                    if (orderIntent.getStringExtra("home_address") != null)
+                        addrView.setText(orderIntent.getStringExtra("home_address"));
+                    else
+                        addrView.setText(addr[0]);
 
-                    TextView phnoView = (TextView) findViewById(R.id.confirm_phone);
+                    EditText phnoView = (EditText) findViewById(R.id.confirm_phone);
                     phnoView.setText(phno[0]);
 
                     TextView orderView = (TextView) findViewById(R.id.user_order);
@@ -66,6 +70,4 @@ public class ConfirmOrder extends AppCompatActivity {
 
     }
 
-    public void update_name(View view) {
-    }
 }
