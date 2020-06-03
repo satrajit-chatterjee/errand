@@ -107,6 +107,7 @@
                        android:fontFamily="@font/avenir"
                        android:hint="Add item name"
                        android:textColor="@color/black"
+                       android:inputType="textPostalAddress"
                        android:theme="@style/ShopEditTextTheme"
                        android:maxLines="1"
                        android:layout_marginLeft="15dp"

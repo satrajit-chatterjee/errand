@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
@@ -198,6 +199,7 @@ public class ShopActivity extends AppCompatActivity{
                 itemEditText.setTypeface(itemEditFont);
                 itemEditText.setHint("Add item name");
                 itemEditText.setTextColor(getResources().getColor(R.color.black));
+                itemEditText.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
                 itemEditText.setMaxLines(1);
                 final int edtxtid = LinearLayout.generateViewId();
                 itemEditText.setId(edtxtid);

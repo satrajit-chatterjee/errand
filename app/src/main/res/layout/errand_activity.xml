@@ -53,7 +53,7 @@
             android:id="@+id/errand_scroll_view"
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
-            android:layout_height="280dp">
+            android:layout_height="410dp">
 
             <LinearLayout
                 android:id="@+id/errand_items_layout"
@@ -72,7 +72,7 @@
                     android:text="Home / Pick-Up"/>
 
                 <TextView
-                    android:id="@+id/confirm_address"
+                    android:id="@+id/errand_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
@@ -83,8 +83,39 @@
                     android:background="@drawable/lin_lay_bg_2"
                     android:onClick="errand_address"/>
 
-                <androidx.core.widget.NestedScrollView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/avenir_bold"
+                    android:textSize="18dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:text="Drop-off / Destination"/>
+
+                <EditText
+                    android:id="@+id/optional_address"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:fontFamily="@font/avenir"
+                    android:textColor="@color/black"
+                    android:hint="(Optional)"
+                    android:theme="@style/ErrandDestinationEditTextTheme"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/lin_lay_bg_2"/>
+
+                <TextView
                     android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/avenir"
+                    android:textSize="18dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:text="Here's some things you can ask us to do"/>
+
+                <HorizontalScrollView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -93,80 +124,299 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/pickanddrop"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp"
+                            android:onClick="pickanddrop"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            app:cardCornerRadius="7dp">
+
+                            <RelativeLayout
+                                android:background="@drawable/petsnmore"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pick Up &amp; Drop"
+                                    android:textSize="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir"
+                                    android:textColor="@color/white"/>
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/office_sanitization"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp"
+                            android:onClick="office_sanitization"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            app:cardCornerRadius="7dp">
+
+                            <RelativeLayout
+                                android:background="@drawable/groceries"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Office Sanitization"
+                                    android:textSize="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir"
+                                    android:textColor="@color/white"/>
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/medicine"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp"
+                            android:onClick="medicine"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            app:cardCornerRadius="7dp">
+
+                            <RelativeLayout
+                                android:background="@drawable/medicine"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/capsules"
+                                    android:padding="15dp"
+                                    android:layout_marginTop="25dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Medicines"
+                                    android:textSize="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/blood_test"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp"
+                            android:onClick="blood_test"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            app:cardCornerRadius="7dp">
+
+                            <RelativeLayout
+                                android:background="@drawable/barber"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Blood Test &amp; Diagnostics"
+                                    android:textSize="20dp"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:layout_marginTop="10dp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/courier"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp"
+                            android:onClick="courier"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            app:cardCornerRadius="7dp">
+
+                            <RelativeLayout
+                                android:background="@drawable/new_service_ac"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/warehouse_2"
+                                    android:padding="15dp"
+                                    android:layout_marginTop="25dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Courier"
+                                    android:textSize="20dp"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:layout_marginTop="10dp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/books"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp"
+                            android:onClick="books"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            app:cardCornerRadius="7dp">
+
+                            <RelativeLayout
+                                android:background="@drawable/books"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Documents or Books"
+                                    android:textSize="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/pet_supplies"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp"
+                            android:onClick="pet_supplies"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            app:cardCornerRadius="7dp">
+
+                            <RelativeLayout
+                                android:background="@drawable/veggies"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/dog"
+                                    android:padding="15dp"
+                                    android:layout_marginTop="25dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pet Supplies"
+                                    android:textSize="20dp"
+                                    android:layout_marginHorizontal="5dp"
+                                    android:layout_marginTop="10dp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/others"
+                            android:layout_width="120dp"
+                            android:layout_height="90dp"
+                            android:onClick="others"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            app:cardCornerRadius="7dp">
+
+                            <RelativeLayout
+                                android:background="@drawable/groceries"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/more"
+                                    android:padding="15dp"
+                                    android:layout_marginTop="25dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Others"
+                                    android:textSize="20dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginTop="10dp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir"
+                                    android:textColor="@color/white"
+                                    />
+
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+
 
 
                     </LinearLayout>
 
-                </androidx.core.widget.NestedScrollView>
+                </HorizontalScrollView>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="280dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/lin_lay_border"
+                    android:background="@drawable/lin_lay_bg_2"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/item_count_parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:fontFamily="@font/avenir"
-                        android:textSize="20dp"
-                        android:layout_marginLeft="5dp"
-                        android:text="1"/>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_height="match_parent"
-                        android:background="#000000" />
-
-                    <EditText
-                        android:id="@+id/init_item"
+                        android:id="@+id/errand_desc"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/avenir"
-                        android:hint="Add item name"
-                        android:textColor="@color/black"
-                        android:theme="@style/ShopEditTextTheme"
-                        android:maxLines="1"
-                        android:layout_marginLeft="15dp"
-                        />
-
-                    <TextView
-                        android:id="@+id/init_subtract"
-                        android:layout_width="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:fontFamily="@font/avenir_bold"
-                        android:textStyle="bold"
-                        android:textSize="30dp"
-                        android:text="-"
-                        android:textColor="#1A850B"
-                        android:layout_height="wrap_content"
-                        android:onClick="init_remove"/>
-
-                    <TextView
-                        android:id="@+id/init_count"
-                        android:layout_marginTop="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_bold"
-                        android:textColor="#1A850B"
-                        android:textStyle="bold"
+                        android:hint="Add task description here"
                         android:textSize="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="1"/>
-
-                    <TextView
-                        android:id="@+id/init_add"
-                        android:layout_width="wrap_content"
-                        android:fontFamily="@font/avenir_bold"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="23dp"
-                        android:text="+"
-                        android:textColor="#1A850B"
-                        android:layout_height="wrap_content"
-                        android:onClick="init_add"/>
+                        android:textColor="@color/black"
+                        android:theme="@style/ErrandDestinationEditTextTheme"
+                        android:maxLines="1"
+                        android:onClick="errand_desc"
+                        android:layout_marginLeft="15dp"/>
 
                 </LinearLayout>
 
@@ -195,21 +445,21 @@
                 android:fontFamily="@font/avenir_bold"
                 android:textSize="15dp"
                 android:layout_height="wrap_content"
-                android:text="Delivery starts at Rs. 90"/>
+                android:text="Errands start at Rs. 90"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/info"
-                android:onClick="shop_info"/>
+                android:onClick="errand_info"/>
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/place_order"
+            android:id="@+id/set_errand"
             android:layout_width="300dp"
             android:backgroundTint="#FF5722"
-            android:text="Place Order"
+            android:text="Confirm Errand"
             android:textAllCaps="false"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"

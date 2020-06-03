@@ -68,4 +68,10 @@
         <item name="colorControlHighlight">#1A850B</item>
     </style>
 
+    <style name="ErrandDestinationEditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#000000</item>
+        <item name="colorControlActivated">#000000</item>
+        <item name="colorControlHighlight">#000000</item>
+    </style>
+
 </resources>
