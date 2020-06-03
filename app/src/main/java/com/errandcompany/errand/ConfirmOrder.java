@@ -97,6 +97,9 @@ public class ConfirmOrder extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.getResult().exists()){
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    String name = documentSnapshot.get("name").toString();
+                                    String phno = documentSnapshot.get("phno").toString();
 
                                     orderIntent = getIntent();
                                     String deliveryAddr = "";
@@ -110,7 +113,9 @@ public class ConfirmOrder extends AppCompatActivity {
 
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("order_details", order);
-                                    user.put("origin_addr", deliveryAddr);
+                                    user.put("addr", deliveryAddr);
+                                    user.put("name", name);
+                                    user.put("phno", phno);
                                     Date date = Calendar.getInstance().getTime();
                                     DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
                                     String dateTime = dateFormat.format(date);
@@ -155,6 +160,13 @@ public class ConfirmOrder extends AppCompatActivity {
                     startActivity(intent);
                     showConfirmed.dismiss();
                     finish();
+                }
+            });
+            TextView closeShop = (TextView) showConfirmed.findViewById(R.id.cancel_confirmed_popup);
+            closeShop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showConfirmed.dismiss();
                 }
             });
 

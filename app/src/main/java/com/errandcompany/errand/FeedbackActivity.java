@@ -156,9 +156,17 @@ public class FeedbackActivity extends AppCompatActivity{
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.getResult().exists()){
+                                        DocumentSnapshot documentSnapshot = task.getResult();
+                                        String name = documentSnapshot.get("name").toString();
+                                        String phno = documentSnapshot.get("phno").toString();
+                                        String address = documentSnapshot.get("addr").toString();
+
                                         Map<String, Object> user = new HashMap<>();
                                         user.put("feedback", feedback);
                                         user.put("rating", givenRating[0]);
+                                        user.put("name", name);
+                                        user.put("phno", phno);
+                                        user.put("addr", address);
                                         Date date = Calendar.getInstance().getTime();
                                         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
                                         String dateTime = dateFormat.format(date);
@@ -171,6 +179,8 @@ public class FeedbackActivity extends AppCompatActivity{
                                                         "Thank you for your feedback!",
                                                         Toast.LENGTH_LONG)
                                                         .show();
+                                                rateApp();
+                                                feedbackText.getText().clear();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -179,8 +189,6 @@ public class FeedbackActivity extends AppCompatActivity{
                                                         "There was an error submitting your feedback.",
                                                         Toast.LENGTH_LONG)
                                                         .show();
-                                                rateApp();
-                                                feedbackText.getText().clear();
                                             }
                                         });
                                     }
