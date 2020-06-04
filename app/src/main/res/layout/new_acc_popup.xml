@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:text="Create New Account?"
+            android:text="Sign in/Create New Account"
             android:textColor="@color/white"
             android:fontFamily="@font/avenir"
             android:textSize="20dp"
@@ -46,18 +46,48 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
-            android:text="Entered account was not found.\nRegister this as new user?"
+            android:text="If you have an account, you have been signed out. Otherwise register as new user"
             android:textColor="@color/white"
             android:fontFamily="@font/avenir"
             android:gravity="center"
             android:textSize="15dp"
             android:textStyle="bold"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/avenir"
+            android:layout_gravity="center_horizontal"
+            android:text="Enter OTP"/>
+
+        <com.errandcompany.errand.OtpEditText
+            android:id="@+id/verify_otp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:digits="1234567890"
+            android:inputType="number"
+            android:maxLength="6"
+            android:textColor="@color/white"
+            android:textIsSelectable="false"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Resend OTP"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"/>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/confirm_acc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="50dp"
             android:layout_gravity="center"
             android:text="Confirm"
             android:textStyle="bold"

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:background="@drawable/shop_pop_bg"
+    android:padding="5dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/cancel_shop_popup"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:text="X"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/circle_background"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="6dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What would you like to do?"
+                android:textColor="@color/white"
+                android:fontFamily="@font/avenir"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_gravity="center"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="320dp"
+                android:layout_height="170dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="#D2C5EB">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="320dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="start"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Deliveries for your daily needs"
+                        android:fontFamily="@font/avenir_bold"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="32dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/shop_order_button"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center"
+                        android:text="Place Order"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:backgroundTint="#FF5722"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="110dp"
+                    android:fontFamily="@font/avenir"
+                    android:paddingLeft="15dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Place orders for fresh vegetables, groceries, meats and other everyday items!"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="#D2C5EB">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="320dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="start"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Run Errands"
+                        android:fontFamily="@font/avenir_bold"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="32dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/errand_order_button"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center"
+                        android:text="Set an Errand"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:backgroundTint="#FF5722"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="110dp"
+                    android:fontFamily="@font/avenir"
+                    android:paddingLeft="15dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Ask us to pick up or deliver items"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="133dp"
+                    android:fontFamily="@font/avenir"
+                    android:paddingLeft="15dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Send international/domestic couriers"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="155dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/avenir"
+                    android:paddingLeft="15dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Fetch something you forgot or anything else you need"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="#D2C5EB">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="320dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="start"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lifestyle Services"
+                        android:fontFamily="@font/avenir_bold"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="32dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/lifestyle_order_button"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center"
+                        android:text="Book Now"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:backgroundTint="#FF5722"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="110dp"
+                    android:fontFamily="@font/avenir"
+                    android:paddingLeft="15dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Hire grooming services, tutors for students, or even book paying guest apartments!"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="165dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/avenir"
+                    android:paddingLeft="15dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Check out these services and more for all your lifestyle needs!"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

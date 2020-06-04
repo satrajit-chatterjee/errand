@@ -17,10 +17,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="Theme.MaterialComponents.Light" />
 
-    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/errand_bg</item>
-    </style>
-
     <style name="toolbar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorOnBackground">@color/white</item>
     </style>
@@ -64,6 +60,23 @@
         <item name="colorControlNormal">@color/black</item>
         <item name="colorControlActivated">@color/mainTheme</item>
         <item name="colorControlHighlight">@color/mainTheme</item>
+    </style>
+
+    <style name="ShopEditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#000000</item>
+        <item name="colorControlActivated">#1A850B</item>
+        <item name="colorControlHighlight">#1A850B</item>
+    </style>
+
+    <style name="ErrandDestinationEditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#000000</item>
+        <item name="colorControlActivated">#000000</item>
+        <item name="colorControlHighlight">#000000</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#999999</item>
+        <item name="colorControlActivated">#FFDF00</item>
     </style>
 
 </resources>

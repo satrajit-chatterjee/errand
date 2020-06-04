@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.errand.MainActivity">
+    tools:context="com.errandcompany.errand.MainActivity">
     <item
         android:id="@+id/menu_home"
         android:title="Home"

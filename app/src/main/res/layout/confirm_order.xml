@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:background="@drawable/confirm_order_bg"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Confirm Your Order"
+                android:textColor="@color/white"
+                android:fontFamily="@font/avenir_bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_gravity="center"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animationView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:lottie_rawRes="@raw/loading"
+                        android:layout_gravity="top"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="You're almost there!"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/avenir_bold"
+                        android:textSize="25dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Let's quickly confirm your details"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/avenir_bold"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="15dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change Name"
+                        android:fontFamily="@font/avenir"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <EditText
+                        android:id="@+id/confirm_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:theme="@style/ErrandDestinationEditTextTheme"
+                        android:fontFamily="@font/avenir"
+                        android:textColor="@color/black"
+                        android:background="@drawable/lin_lay_bg_2"/>
+
+                    <TextView
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change Address"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="25dp"
+                        android:fontFamily="@font/avenir"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="10dp"/>
+
+                    <EditText
+                        android:id="@+id/confirm_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:theme="@style/ErrandDestinationEditTextTheme"
+                        android:fontFamily="@font/avenir"
+                        android:textColor="@color/black"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/lin_lay_bg_2"/>
+
+                    <TextView
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change Phone Number"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="25dp"
+                        android:fontFamily="@font/avenir"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="10dp"/>
+
+                    <EditText
+                        android:id="@+id/confirm_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:theme="@style/ErrandDestinationEditTextTheme"
+                        android:fontFamily="@font/avenir"
+                        android:textColor="@color/black"
+                        android:background="@drawable/lin_lay_bg_2"
+                        android:layout_marginBottom="10dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/white">
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
+                   <TextView
+                       android:layout_marginTop="15dp"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Order Details"
+                       android:textSize="25dp"
+                       android:layout_marginLeft="25dp"
+                       android:fontFamily="@font/avenir"
+                       android:textColor="@color/black"
+                       android:layout_marginBottom="10dp"/>
+
+                   <TextView
+                       android:id="@+id/user_order"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="25dp"
+                       android:fontFamily="@font/avenir"
+                       android:textColor="@color/black"
+                       android:layout_marginBottom="10dp"/>
+
+                   <TextView
+                       android:layout_marginTop="15dp"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="25dp"
+                       android:textSize="15dp"
+                       android:text="Payment method: Pay on delivery"
+                       android:fontFamily="@font/avenir"
+                       android:textColor="@color/black"
+                       android:layout_marginBottom="15dp"/>
+               </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/final_confirm"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="bottom|center"
+                android:text="Place Order"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_marginBottom="15dp"
+                android:backgroundTint="#FF5722"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
