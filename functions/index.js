@@ -36,7 +36,6 @@ var goMail = function (_data, title) {
             // console.log("Yes");
             var to_send = "Customer Name: " + email.name + "\n\n"
             + "Customer Phone Number: " + email.phno + "\n\n"
-            + "Customer Email ID: " + email.email + "\n\n"
             + "Customer Delivery Address: " + email.addr + "\n\n"
             
             if (title == "Received New Order")
@@ -73,7 +72,7 @@ var goMail = function (_data, title) {
 
 
 exports.onDataAdded = functions.firestore
-    .document('Users/{email}/{active_orders}/{dateTime}')
+    .document('Users/{uid}/{Orders}/{dateTime}')
     .onWrite((snap, context) => {
     const createdData = snap.after.data();
     // console.log(createdData);
@@ -83,7 +82,7 @@ exports.onDataAdded = functions.firestore
     });
 
 exports.onFeedbackAdded = functions.firestore
-    .document('Users/{email}/{feedback}/{dateTime}')
+    .document('Users/{uid}/{Feedback}/{dateTime}')
     .onWrite((snap, context) => {
     const createdFeedback = snap.after.data();
     // console.log(createdFeedback);
