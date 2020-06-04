@@ -162,8 +162,7 @@ public class FeedbackActivity extends AppCompatActivity{
                                         String address = documentSnapshot.get("addr").toString();
 
                                         Map<String, Object> user = new HashMap<>();
-                                        user.put("feedback", feedback);
-                                        user.put("rating", givenRating[0]);
+                                        user.put("feedback", feedback + "\n\nRating = " + givenRating[0]);
                                         user.put("name", name);
                                         user.put("phno", phno);
                                         user.put("addr", address);

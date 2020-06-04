@@ -98,16 +98,17 @@ public class ConfirmOrder extends AppCompatActivity {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.getResult().exists()){
                                     DocumentSnapshot documentSnapshot = task.getResult();
-                                    String name = documentSnapshot.get("name").toString();
-                                    String phno = documentSnapshot.get("phno").toString();
 
-                                    orderIntent = getIntent();
-                                    String deliveryAddr = "";
-                                    if (orderIntent.getStringExtra("home_address") != null)
-                                        deliveryAddr = orderIntent.getStringExtra("home_address");
-                                    else
-                                        deliveryAddr = addr[0];
+                                    EditText nameV = (EditText) findViewById(R.id.confirm_name);
+                                    String name = nameV.getText().toString();
 
+                                    EditText phoneV = (EditText) findViewById(R.id.confirm_phone);
+                                    String phno = phoneV.getText().toString();
+
+                                    EditText addressV = (EditText) findViewById(R.id.confirm_address);
+                                    String deliveryAddr = addressV.getText().toString();
+
+                                    Intent orderIntent = getIntent();
                                     String order = orderIntent.getStringExtra("order_details");
                                     order = order.replace("--->", " \t\t\t");
 

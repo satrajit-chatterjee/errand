@@ -81,6 +81,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:text="Pay on Delivery"
+                        android:fontFamily="@font/avenir_bold"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="If you would like to make changes or cancel your order contact us at\n\n9874972209/9836647325/033 4064 0074"
                         android:fontFamily="@font/avenir_bold"
                         android:textColor="@color/black"
